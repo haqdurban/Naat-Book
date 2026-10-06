@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0F4C3A">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>میری پسندیدہ نعتیں</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FBF6EC;
+    --ivory-deep:#F3EAD6;
+    --green-deep:#0E4636;
+    --green:#155C46;
+    --green-soft:#DCE9DF;
+    --gold:#B5892C;
+    --gold-bright:#D9AF52;
+    --ink:#1E2A22;
+    --ink-soft:#5B6B60;
+    --card-shadow: 0 10px 24px rgba(14,70,54,0.10);
+    --radius: 20px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#EDE5D2;
+    font-family:'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--ivory);
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+    display:flex;
+    flex-direction:column;
+  }
+  /* ---------- App bar ---------- */
+  .appbar{
+    padding:calc(14px + var(--safe-top)) 16px 14px;
+    background:linear-gradient(180deg, var(--green-deep), var(--green));
+    color:var(--ivory);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:34px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 4px 14px rgba(14,70,54,0.25);
+  }
+  .appbar .back-btn{
+    display:none;
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.08);
+    color:var(--ivory);
+    font-size:20px;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .appbar.has-back .back-btn{display:flex;}
+  .appbar .home-btn{
+    margin-inline-start:auto;
+    display:none;
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.08);
+    color:var(--ivory);
+    font-size:17px;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .appbar.has-home .home-btn{display:flex;}
+  .appbar h1{
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.5px;
+  }
+  /* ---------- Screens ---------- */
+  .screen{
+    display:none;
+    flex:1;
+    flex-direction:column;
+    animation: fadeUp .35s ease;
+  }
+  .screen.active{display:flex;}
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  /* ---------- Title screen ---------- */
+  #screen-title{
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:32px 24px calc(40px + var(--safe-bottom));
+    background:
+      radial-gradient(circle at 50% 18%, rgba(181,137,44,0.10), transparent 55%),
+      var(--ivory);
+    position:relative;
+    flex:1;
+  }
+  .frame{
+    border:1.5px solid var(--gold);
+    border-radius:26px;
+    padding:34px 22px;
+    position:relative;
+    width:100%;
+  }
+  .frame::before, .frame::after{
+    content:"";
+    position:absolute;
+    width:34px;height:34px;
+    border:1.5px solid var(--gold);
+    opacity:0.75;
+  }
+  .frame::before{ top:-8px; inset-inline-start:-8px; border-inline-end:none; border-bottom:none; border-radius:14px 0 0 0;}
+  .frame::after{ bottom:-8px; inset-inline-end:-8px; border-inline-start:none; border-top:none; border-radius:0 0 14px 0;}
+  .crest{
+    width:64px;height:64px;
+    margin:0 auto 18px;
+    color:var(--gold);
+  }
+  .masjid-photo{
+    width:78%;
+    max-width:220px;
+    margin:0 auto 18px;
+    border-radius:14px;
+    overflow:hidden;
+    border:2px solid var(--gold);
+    box-shadow:0 10px 26px rgba(14,70,54,0.22);
+  }
+  .masjid-photo img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .book-title{
+    font-size:44px;
+    font-weight:600;
+    color:var(--green-deep);
+    line-height:1.5;
+    margin:0 0 10px;
+  }
+  .book-sub{
+    font-size:16px;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+    font-family:'Noto Naskh Arabic',serif;
+  }
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    color:var(--gold);
+    margin:18px 0;
+  }
+  .divider .line{width:46px;height:1px;background:var(--gold); opacity:0.6;}
+  .enter-btn{
+    margin-top:10px;
+    background:var(--green-deep);
+    color:var(--ivory);
+    border:none;
+    padding:16px 40px;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:19px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(14,70,54,0.28);
+  }
+  .enter-btn:active{transform:scale(0.97);}
+  /* ---------- Alphabet screen ---------- */
+  #screen-alphabet{padding:18px 16px calc(24px + var(--safe-bottom));}
+  .section-lead{
+    text-align:center;
+    color:var(--ink-soft);
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:14.5px;
+    margin:4px 0 16px;
+  }
+  /* ---------- Category screen ---------- */
+  #screen-category{
+    padding:24px 18px calc(24px + var(--safe-bottom));
+    justify-content:center;
+  }
+  .category-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .category-box{
+    aspect-ratio:1/0.95;
+    border-radius:20px;
+    border:1.5px solid var(--gold);
+    background:linear-gradient(160deg, var(--green-soft), var(--ivory));
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    cursor:pointer;
+    padding:14px;
+    box-shadow:var(--card-shadow);
+    text-align:center;
+  }
+  .category-box:active{transform:scale(0.96);}
+  .category-box .cat-icon{
+    font-size:30px;
+    color:var(--gold);
+  }
+  .category-box .cat-name{
+    font-size:19px;
+    color:var(--green-deep);
+    line-height:1.5;
+  }
+  .category-box .cat-count{
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .alpha-grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:10px;
+  }
+  .alpha-btn{
+    aspect-ratio:1/1;
+    border-radius:16px;
+    border:1px solid var(--gold);
+    background:var(--green-soft);
+    color:var(--green-deep);
+    font-family:'Noto Nastaliq Urdu',serif;
+    font-size:23px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .alpha-btn.has-naats{background:var(--green-deep); color:var(--ivory);}
+  .alpha-btn.has-naats::after{
+    content:"";
+    position:absolute;
+    bottom:6px;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--gold-bright);
+  }
+  .alpha-btn:active{transform:scale(0.92);}
+  /* ---------- List screen ---------- */
+  #screen-list{padding:18px 16px calc(24px + var(--safe-bottom));}
+  .list-letter-badge{
+    width:56px;height:56px;
+    margin:0 auto 14px;
+    border-radius:16px;
+    background:var(--green-deep);
+    color:var(--ivory);
+    font-size:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--gold);
+  }
+  .naat-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--ivory-deep);
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:12px;
+    cursor:pointer;
+    box-shadow:var(--card-shadow);
+  }
+  .naat-card:active{transform:scale(0.98);}
+  .naat-card .idx{
+    width:36px;height:36px;
+    flex-shrink:0;
+    border-radius:50%;
+    background:var(--green-soft);
+    color:var(--green-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;
+    font-family:'Noto Naskh Arabic',serif;
+  }
+  .naat-card .naat-title{
+    font-size:20px;
+    color:var(--ink);
+    flex:1;
+  }
+  .naat-card .chev{color:var(--gold); font-size:16px;}
+  .empty-state{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--ink-soft);
+  }
+  .empty-state .icon{font-size:38px; margin-bottom:12px; color:var(--gold);}
+  .empty-state p{font-family:'Noto Naskh Arabic',serif; font-size:14.5px; line-height:1.8;}
+  /* ---------- Add / edit / delete controls ---------- */
+  .card-actions{
+    display:flex;
+    gap:6px;
+    flex-shrink:0;
+  }
+  .icon-btn{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1px solid var(--ivory-deep);
+    background:var(--ivory);
+    color:var(--green-deep);
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .icon-btn.danger{color:#A23B2E; border-color:#F0D9D4;}
+  .add-naat-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    background:var(--ivory);
+    color:var(--green-deep);
+    border:1.5px dashed var(--gold);
+    padding:14px;
+    border-radius:14px;
+    font-family:inherit;
+    font-size:16px;
+    cursor:pointer;
+    margin-bottom:16px;
+  }
+  .add-naat-btn:active{transform:scale(0.98);}
+  .detail-actions{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+  }
+  .detail-actions button{flex:1;}
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(14,25,20,0.55);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:50;
+  }
+  .modal-overlay.active{display:flex;}
+  .modal-sheet{
+    width:100%;
+    max-width:430px;
+    background:var(--ivory);
+    border-radius:22px 22px 0 0;
+    padding:22px 18px calc(22px + var(--safe-bottom));
+    max-height:88vh;
+    overflow-y:auto;
+    box-shadow:0 -10px 30px rgba(0,0,0,0.25);
+  }
+  .modal-sheet h3{
+    margin:0 0 16px;
+    text-align:center;
+    color:var(--green-deep);
+    font-size:22px;
+  }
+  .modal-sheet label{
+    display:block;
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin:0 0 6px;
+  }
+  .modal-sheet input[type=text], .modal-sheet textarea{
+    width:100%;
+    border:1px solid var(--ivory-deep);
+    background:#fff;
+    border-radius:12px;
+    padding:12px 14px;
+    font-family:'Noto Nastaliq Urdu',serif;
+    font-size:18px;
+    color:var(--ink);
+    margin-bottom:16px;
+    resize:vertical;
+  }
+  .modal-sheet textarea{min-height:140px; line-height:2.1;}
+  .modal-hint{
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin:-10px 0 16px;
+    line-height:1.8;
+  }
+  .modal-actions{display:flex; gap:10px;}
+  .modal-actions button{
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    font-family:inherit;
+    font-size:16px;
+    cursor:pointer;
+    border:none;
+  }
+  .modal-save{background:var(--green-deep); color:var(--ivory);}
+  .modal-cancel{background:var(--green-soft); color:var(--green-deep);}
+  /* ---------- On-screen Urdu keyboard ---------- */
+  .kb-toggle-btn{
+    width:100%;
+    background:var(--green-soft);
+    color:var(--green-deep);
+    border:1px solid var(--gold);
+    border-radius:12px;
+    padding:11px;
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:14px;
+    cursor:pointer;
+    margin:-4px 0 12px;
+  }
+  .mic-btn{
+    background:var(--ivory);
+    border:1px solid var(--gold);
+    color:var(--green-deep);
+  }
+  .mic-btn.listening{
+    background:#A23B2E;
+    border-color:#A23B2E;
+    color:#fff;
+    animation:pulseMic 1.1s ease-in-out infinite;
+  }
+  @keyframes pulseMic{
+    0%,100%{opacity:1;}
+    50%{opacity:0.75;}
+  }
+  .urdu-keyboard{
+    display:none;
+    background:var(--ivory-deep);
+    border-radius:14px;
+    padding:10px 8px;
+    margin:0 0 16px;
+  }
+  .urdu-keyboard.active{display:block;}
+  .kb-row{
+    display:flex;
+    gap:4px;
+    justify-content:center;
+    margin-bottom:5px;
+    flex-wrap:wrap;
+  }
+  .kb-key{
+    flex:1;
+    min-width:26px;
+    max-width:34px;
+    height:38px;
+    border-radius:8px;
+    border:1px solid #E3D9C2;
+    background:#fff;
+    color:var(--ink);
+    font-family:'Noto Nastaliq Urdu',serif;
+    font-size:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .kb-key:active{background:var(--green-soft);}
+  .kb-key.wide{
+    flex:2;
+    max-width:none;
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:13px;
+    color:var(--green-deep);
+  }
+  .kb-key.control{
+    background:var(--green-deep);
+    color:var(--ivory);
+    border-color:var(--green-deep);
+  }
+  .dia-container{
+    display:none;
+    margin-top:4px;
+  }
+  .dia-container.active{display:block;}
+  /* ---------- Naat detail screen ---------- */
+  #screen-naat{padding:20px 18px calc(30px + var(--safe-bottom));}
+  .naat-header{text-align:center; margin-bottom:16px;}
+  .naat-header h2{
+    font-size:28px;
+    color:var(--green-deep);
+    margin:0 0 6px;
+  }
+  .ornament{color:var(--gold); font-size:14px; letter-spacing:6px;}
+  .audio-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--green-deep);
+    color:var(--ivory);
+    border-radius:16px;
+    padding:12px 16px;
+    margin:16px 0;
+  }
+  .audio-bar button{
+    width:42px;height:42px;
+    border-radius:50%;
+    border:none;
+    background:var(--gold-bright);
+    color:var(--green-deep);
+    font-size:16px;
+    flex-shrink:0;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .audio-bar .audio-label{
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:13.5px;
+    line-height:1.6;
+    opacity:0.9;
+  }
+  .naat-card-text{
+    background:#fff;
+    border:1px solid var(--ivory-deep);
+    border-radius:20px;
+    padding:26px 20px;
+    box-shadow:var(--card-shadow);
+    position:relative;
+  }
+  .naat-card-text .corner{
+    position:absolute;
+    width:20px;height:20px;
+    border:1.5px solid var(--gold);
+    opacity:0.7;
+  }
+  .naat-card-text .c-tl{top:8px; inset-inline-start:8px; border-inline-end:none; border-bottom:none;}
+  .naat-card-text .c-tr{top:8px; inset-inline-end:8px; border-inline-start:none; border-bottom:none;}
+  .naat-card-text .c-bl{bottom:8px; inset-inline-start:8px; border-inline-end:none; border-top:none;}
+  .naat-card-text .c-br{bottom:8px; inset-inline-end:8px; border-inline-start:none; border-top:none;}
+  .naat-body p{
+    font-size:23px;
+    line-height:2.5;
+    text-align:center;
+    color:var(--ink);
+    margin:0 0 14px;
+  }
+  .naat-note{
+    margin-top:18px;
+    text-align:center;
+    font-family:'Noto Naskh Arabic',serif;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:var(--ivory-deep);
+    border-radius:12px;
+    padding:10px 14px;
+    line-height:1.8;
+  }
+  .bottom-nav-btn{
+    margin-top:22px;
+    width:100%;
+    background:var(--green-soft);
+    color:var(--green-deep);
+    border:1px solid var(--gold);
+    padding:14px;
+    border-radius:14px;
+    font-family:inherit;
+    font-size:16px;
+    cursor:pointer;
+  }
+  .bottom-nav-btn:active{transform:scale(0.98);}
+  ::selection{background:var(--gold-bright); color:#fff;}
+  @media (min-width:431px){
+    body{background:#DCD3BC;}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <div class="appbar" id="appbar">
+    <button class="back-btn" id="backBtn" aria-label="پیچھے جائیں">◄</button>
+    <h1 id="appbarTitle">میری پسندیدہ نعتیں</h1>
+    <button class="home-btn" id="homeBtn" aria-label="حروفِ تہجی">⌂</button>
+  </div>
+
+  <!-- Screen 1: Title -->
+  <section class="screen active" id="screen-title">
+    <div class="frame">
+      <div class="masjid-photo">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAJVAU8DASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAAAAIDBgEFBwQICf/EAF4QAAEDAgMDCAYECAkIBwYHAAIAAxIEBQYTIgcyQgEUI1JicoKSERUzorLSFiRDwjE0U3OTo+LwCBchJSZUY4PDNUFEUZSz0/I2YWR0hJHjJ1ZxgaS0GEVHVWV1tf/EABsBAQEAAwEBAQAAAAAAAAAAAAACAQMGBAUH/8QAMREBAAIBAwMCBAUEAgMAAAAAAAISAwQTIgEFERQyMUJRUgYVM0FiISM0cWGCgZHh/9oADAMBAAIRAxEAPwDXoQiK/WHCBCEIGQlTIyEIRFSBCyhBhZQSEVYITRQiSppIRuqqgQhCAFZWEw/gQYWE0URQKKCUkYoJSI0JopopEIhPFLFUMLCysIBCEIDhQhCkLJCIoRTCyhCoYQsksIkIQhAIWUKqsMLMUJkqxYqBTIFKslRFMsqWSJkISoERQsowFhSRSjvIyVZUiEGIrKxqTRUqYQsoVAQhCAQhCJCEIUqCwsoVDCFlCJLupFIhBFFClUaDCCFMP4EF+BBHFCYkKpRCxTLKwpqFQmRFAqEyFta7CKaOlAimigjTRipCHUlIUVEicRQIoihUpfgTrMUIWAiljqUiVQyC/ChMlT2gTIQpCxTIWUZYQhCqKZSLFMKELZVNmRFBCmQtclWLFY9CdKQ6UTZhCzpQSnyrywlTrCKsEqdY9CBUJkqAQX4UJkEJfgTRTRRFGESzFSRQqESFKhSFilIVIghW5AH8KEJlgKhN6ELJYIWUCKFiITxRFYGELGpNFBhZiiKEBFCZBIssUyZEUQVCaKIoFiiKkilJWFQmihSFU9vaZfrhbqXip2NROO9kRkooqN5qTJNyIdO91V5tVGcsMumP3NmGsckbIqgCrOmkVOWnQ1pFvwpaUnBHJdKTrYiReLdWrGrvzEqMWbK9V/ZkRFmEPWy5auHzLYWejcpmXHKmoKoq33Mx90uIt1c32vPlzZ+nTpDxX4/7fY1uHHjxdZS6+bfB7YoipBFYXUvhxJFEVJFYUrIlipIoipEcURU0UpCqEXoQnIUqqIwhZiiKIYSqWKWKlUSITEgVuSELMUyBUIQiQKaSWKaKKKmQmFYC7qZtLvJhWakjRREVhBKYpYQmEVhUphOP4EqBQBIQhYDJUyIrIVOIyWIphSwWKCFOkHUURWuS+iv2msrrZtILLcGopq1ghepnSEhJiMdI9YSKWniW/wCHUtTgu4UlftFfYuLlRb6etpCtrFUQiTftBc1DGQiTgAWktMVu6hrIecZ4myIS7y5bsmow5NVmjD3eX3u64ZxwYpS6fsiEVkfwIQP4F074QQhCSAsRTiSUvwKQqCTIRSKKIqVKSqyakQmigUsmpUpKREVLKMUJkL0NQFCBTIqxUJksUSEbyaKIoCKaKwhBhCFlAITRSoAVgh1J0IMRWR/AmiiKKIQrKdYilgm8nFEUCpkAkCmIUvdSIykipVE8RC3obzCXn1GSOHHKcm7DGWSUYxVijas9XtGcoay8U9vYFgnGBJ8W82rHVljL95K0uCWYUt7i7ysWzvD5HYbhVOs28at25D075NiRDzcot6h/KZZeFNi6xuW9tquKjGlJ5wmyANTZF1m+z2eFcX2bV4umun/N0ndMOTJpofxVmKaKyhdw5hiKIrKEGIoisrGpSCKIo1LKMsRSp0II4yRGKeKygiQSkiiKMIE0ULK9TUwKymEURUhUJop0ESaKYksVQEIinQJFCdCkY/zJR/ApViKDCFmKygVCZCBVmKb0LCAWIpk0UUj4VlOhYCrxXypKjstbVNxk03IV74rTvBcHagaptyLYuRZAoxHtF1iXwO/6qGHTdcc/mfW7Tp55M9o/s9OG66+VX8F27VhuXBu4P1LDbjoZgvRKoEdMdXs9MuqS3WFXK6r2Q2msuBFzsq0s0iHLIiFlsdQ8JaZF2iJePD91u1tJujaqiJuPNokXCTjfwi3EV0W21TN1t+Xc6duoa5g485p1Zzbjw5g9om24l4VwGj1EcGpjP6Oo1GPcxSg5zGWpC2mIrd6qvlZbZZnNnibEusPD7q1sV+qYckcuOOSLh8kduVSoIUyFtQRCdEUCLEVJFL6FLLCFlBIMIWUEKwEQnSxQYSbydYivW0gVlMsCKkZQhZVDCFlCBEyymigjim9CaKIoFWE8URUhfQj0J4oQImWURQYFCzFMIoosUJkyCMRQpEIFivNUDulIt4dPlXrXiqjGUZDHMFcT+LfkdJ2H2zYpR/nBov7dv4lf8N/i8v8AsFWP/wB2qTbWpVjZD+Xb+JdEw7TSZEdX4pV+9ztcY6BotpQ/06u3acH/AHYqsq1bSh/p1di7Q/7ltVmK/Ve2/wCLD/Th9d+vJGhSIXueZHFEVIhBGhSIUso4oimQgVYTxQgSKIp0sVgJ6EJkRXraSphFZEUIMRRFOiKkLFEU0URVBYoimimUhYoimQqAlTIUhURTIVBYoUkURUhULKzFAqIqSKzFAkURTxWVMpKeWofbph6QiKXVHdWoqGhbEXHOcERFpEiEVt65qY6d7iJaO0mN1bfiROEw+TZavZkPW8K/L/xLqdTLVUl7f2dp2fDijgtF7hq6q3kJME24TZC5r1S4h95Wiw44qKPL51a2Xhyybk09EolKWmJflCXKNpV3Gx0dEQuZL71W0WnVJoSk4rtR02fZWLtSyKmecbJk4kLZC4Mm4l2uqudrlfWrFdLw7Q4qrHb1RuPUdTVjmDR1I6ejHLKLglH7PijvD1lWC3Vu2/qNtqXGqilqmnyKmbMPaCRe0+8PeWpIdS/SPwxmz5dN/d/8OR7zjxRy8EKFJFEV0z4xIoipFiKBIoimisxUiIhQpIoigjQpIpYoFQmiiKwI4pllZivW1I4plIIoQRoUkURQRphFPFAigjWSFPFEUCRTJ/QsoI4oin9CPQgiimEU/oR6FIwsRTehNFBHFZH8Kliliii+hZToWUkWdKZa3FFZUWzDd0uVKI5tNSOPNy3ZCtOSVIyk2Y42lV7pEI5gjLLHMiuabPayht/rls6iMq8npuvN9JIuER1R0rzYDxM9jKouVPWyccYpyITyxdb3e1IRKXVFefAdDiJtyvbuFPdG6ZwssWjHLFyMhEi3ZRl5l+fd81WPUy6Ti6zteOWCPWLW7aqxurqLTzZwXI5suHqrtuxzaRh/DeHrNh65XQRqPVtIOXzIjy5MtjEjzOr2VyTGmC7xfOacxJlkmhIS50+X7SvGzjZxZzdslVU0GVdGatgRNu5xbJyI72kikJahi32d3UuftF9S0lioRhbS1NkLlXWvaCl7Ssejq7oipNPCtbiijulso26pi2kTme+3ng3qGVVURiQ94S3l5sG1dRWWt1x8nCFt6Ik4UijGQ/EK7jsuujGENPFzPctPKUpZW9QhC6p8YsURTIQLFEUyFIj9CPQpEII/Qj0KSKWKkRxWR/CnihGUcVlZ9CZeppKKPQmQgwhZTRQR+hNFMhSFiiKZCWUIoihCAQhCAQhCJCFlCKYQsxRFALCyhBgtIy4RXmrBpayjfp3WReYeGLwOt6XB6upesUtQ1ms5ZbpFqXyO8Ryy0s9t9Dtsox1EbNa3zWjEW2m22Wx0iICIiPlUdU+LRERao8PWktfXXOnt98oLKbYt8/bcy5DIhIS090YyUmJK5u32Orrik4VIxnZY8WnSvyGe9asnedKvSLjZbzftNRSXpoanm1cxVRbcFlwSge6Wpc+2T36suFrrrfcG6onKZwSbdfl0guEWnV1Yl5lYMYXX1dhuvqmiIXRi2yW7Ei0iXhWIxyx4tfF1HAt8bGjprfkxKmrWyIhecEizMxsfKReVb/FAYZuOGPWlCNPzyLQk4DeWTuohKWkZezIdQiWlcn2aGV7wP665Cck2MBMvyjbmWXvRirK8DjAjTkRZQjJkY7wlJyXvS8S+z2XHnyauPSLx9w244JWeMYlLeWU0URX6vFw8mOFYUkUsUCRQniiKBEJ4xRFAiE6WKkYQsxQgwhCIr0NIQsxRFBhCeKIopgVhNFCwFQpIoEUEcU0U0U0VkRxQpIoilhGmipBFEVNloYpoqSKIpZCOKaKaKb0KbKqjilU3oR6EslDFNGKkQk/guHxaessNnrLw3dKylF6tYbiyZkRC14ZR8UVI8LItlpb8or01jjYuayFvhEi6y8FQIi2Jae0vyLuWOMdXOPR3mllKWGKBx1si1E3FWrAbd6CsfqLDbWaxzJEXgdjER62oh6qpNpuFLdW3XKVyWQ+4w5pHSQlEuFWfDt8qML0N2xFnU40lEy0L+fL7R7LbjEesQj4l4m91m209azaTK74Uowo3Sk8/ROjyE1qEpEPZIRLi3VzO4EJVjsCJxvMKJF1V160Vt0fws4d2t7fM61kulpX8wWmyHeISj7q4+8MSIRKQiUZdZdl+FoxtKT4PeZSr0igighUiX0LtnNkQnR6ECLMU3oR6EEZCiKk9CEEcUqmR6FIhEURUkUII4oUkURW9rRphHSmim9CxYRxRFSehHoU2EcZJstOIrKWWURQmRFSFTIisxQYiiKzFCDEURToigREU6IoEiiKeKIoERFPlpooIlmKkiiKKV7FxfV6Qf+1trFcUhc8S9l8pmalxpt2XRkLgx6y1dyq2aS3u1lUUWmhJxwoy0r8t7z/mT/27fQ/oRVjZiX833eLkv54q/wDeKzYnKWyjGQ8v/wDFf/6bC0mHcTYbu9c5b7M4JPi2T7nILJN6ZCJF7wrq2yWho7lUXejuVKzVUTrDIuNOjJtyJEQ6e8IkvA3S9zrdHyf+zYf+7D91cQEejHurveS1yYNfp2m4gDJxEeyuFBuiuv8Awx8JPg95+PRCQoEVNFEV2Dn0MUJ1mKCOKCUkURQRIipYoijCKKIp4oijJIoiniiKBEJ4oiqYJFCcRTR1II0KSKaKMoYpoqSKIp5EcURUvhRFTYJFKpYoigTLTRUiVCpYoimQlipYrMVlMgSKBFNFN6FNgiFmKIrPkLEVhwhBtxzhbGRR1KVUDGF3FrElXaayneqqR6gzhANUdJS07u6PV0l3tPj1mo2YWejT4d7J4e67YntpF0FQLxbsQ1F7qr+LK5t3Ct0y26ghKicGUdO6q/ZbbUZJer6O5OULgiQnVai3d3SIitzeqG7VOH66hao8x19gmxHd1R7y/Otdk3Mspus09scaufbGeb0d6r7hUvahpsgWo70iEpS/u4x7S+otkNSNJdroL7L0RYZKTXSDHV1e8vnbZ3hfEVsujjN3bFmhJlzLazhcHO06o90SX0bslFvnF0IXqUc5kWWwJ4RIo9mUvEvDJ7MlpSs6DjO7U7WzW6wfOnd5AKJOATf2g8RLljNXR1OY5TVjLkSjESXT8ac6q9nt7pW6Osbdl0QiyXSdMJSGO8uFXq0PWWoauXN6pl9zefKWWPmGW6IiQxHd4t5fe7Tq+un4xfL7hp9yNlnjJNFKzImxcLeIR3RUnJyLvcc7Rs5WUeRFiKk9CPQtjHhHEU0U3oR6ECJYp4oigSKIp4oigWKxFMmRkkUCKaKIrFk1YQnEUehLBYrKz6E0U8qIsRUkURTyF9CPQpERWPJVH6EehSRRFYsVR+hHoUkVmKWCRRFPFEVgRehNFPFEVmwSKE5CiKkIhPFEVkQPE4JRbZzO85ER73F7pLTVVNRjcOdVdLTlXRjPLEnBHqiXVVg9BfMtVdqNvVURzC4RJc9+IcWSWm8432O0ZIxy1k1tZWSk2LLhSIeLUS8RO1QPON5JR1cK2hUbzdK44LLbcSlCUdMl5Ck4842TwyHTLUvzmUpOpeFlyofp5NsuCMiVgw7cqi387pXW5U2S44IkRRFyOko7u9Ed3iWvHRTxzMvVHd3k1OJZwi48JSEhHvRIR8pEJJGzCz0d+s7d2pm2GRpRKWe60ItkEnCFstIiW7GXeW/w/fuc11vbOqrCbqXhbIHXicEZNiWoiIuIo7vD4VzylaIawnMwSbIovRLUrVbbQ2/Sv1TRc1q6Sm5xE+jiQjqFstUijEvEt+KWS1eiZ1ryezGVC3Q3rJt7dOLRNiUMwhyx7OlaxTvOOOuSc3oj7ox+6o1+paGM8eCMZ/FxeqlGWWVSrEU6F7bPKSKCFOhFVRRRFSxRFLJRRRFSpYpYJFL6FKiKKJFEVLFKIokkU0U8UJYJFZTJopZVUcURUkUwiliqOKFJloEVNiqOKFNFEU8qqhiiKmiiKWKo4xRFSJvQseSqGKwporyXJ3mtvfqJRJtvSRdbhUSlXp5VGNpVSrMUzeoRLelqkpPQqjJNUMVhT+hYIVViqFZIdOrd6qfkFG7Elpy9LR6xXDjKyvjTOEyIuvEXRxKOnUvDVU0apwilq1F0i2VY7GodFptxyPZWmrnagnii235l+aajHGOaUXZYskpROTAx3veJb2w2q0v0Odc2b1IiKLtK2LjY6hLiLvD4lV82o4svwku2bJXWywe2JEQkNS4Pwl95aPmbFbo7ZgXLdpyuVwJ99nLbJ9h2TbmrUMR93VurbY0oWaUqNymcbcbfZzBMeLSIl3f2leoM5guDGQ7pZapm0oWxxL0AjlGyL2ndkUpF7or6/aMccmqjZ4O4SlHB1VSKaKeOpZ9C7+zl0MURUyPQs+WfCPLSkMVN6EqwwiQpYoIVXlNUSyQpoojJYKo0RUmWiKJqIoipYrHoWPLZVHFNFMj0J5EcUw/hToUlWELMUICKx6FlMgWKIpkIFihMhAqEyIoFitTivM9SuZYtkIuN5gHuuDIZD2RLi7MluIrTYyF71KJMVHN41LRRKOWXSDpckJaeLh7y8OvlXTzerSR/u9G3kRkRE3lkREURKQj2ZIimJwnCInBbFziEN0e7xRRyrfpv04teb9SRYoUiVb2sqUuGIqRGrhUT9q4e6LnNVXXL/Sbla7WPSNlpJ1yRFGnLVpiWoi0qq3K/W9quee+kVwcG3dG9SiQiVY5GIuDHhLVu6VNXNYRYqH+eVVRXPi24LnF0bkur+RGXdktXXXOjC6MDTYZLnzbDY2PoyiTERjLuj5ezqX5nn/Uk7bFHjFJ6+s5NlTliq6ODciky/n/iPVEvFIdX7S6Ps5xjhm24X55XYkxBRsWerJwgB5z+eRIYiI9aLg8PD1RXJ/W9HzOtyMH/AFEilfByykLnZ7pavFw7y6vs5xBcabBjB/QL1gXPf6NMB14iJC4PDEYue92lo6rqvtHfSfqDtNs2pM1VyzBubhVVEw421by+z0iOrL1SlLV1Vu8dPjWOWqqaiTbtJJsxGMhlp0qlt3PBr9yraM8G3K3tDGpdriYy5VMRIqXM3d2I9X4lacSc1Ju31FJmNi6yRFTH/oxSGTfm4V9bsn+Z0fP7pGuBpiFLFSrMV31nJoYplJFEUsVRoinWYpYqhiiKmiiKWEMURUkUJYRxRFSIVBUJopoqbCNCkiiKCNCkEVmKWCIUoilIVNgkURTRTi2lhFFCliiKWEUURU8UsUsIxWYrJfgQgj9CrG0R2oprbQPU1RUZ7deyTLDGonXBLTIYkRCJatMe8rJW1NPR0b9ZVuC2ww2TjxluiI6iXz09tWF+7XK4XIqUXahximtwA4P1FkXhecKXWLLbH5V8TvGqhDB1h+76XbMNsvSb6IB8aloarLbHNHM0SiMt6MtUe8pOUOytNhm8YfrBuzNNfHKqrGpzGGnGxEnWC4o7xFvauIY7y3YkJDISkJDISlvCtvatbHUYOlf2addi2skixRFSRTehfUs8aHLWI6hU5Cl3SGXCsTl/RWP3RcRG55RON2XDY1Ajzkm3Sb0lFz622Pe0iPeXjuDmMjuTlGLdK23Vjnc8L/Qd3MbLtbo+EvDs6gcXVguyqKW2tE4WWEhIsxkuj/TESrF0tDfOK4qrFRFbZD66AS1E+O9HqiRS+HVw/m+X9STuMfti9hHjhwSqiZpW3KLTzYSH+ci4i8sf30rp+zem2kFhF1u0Xa2k/cquLxG3L1QURIiHsk3ER7XWkuO+pRF6kz8WE5cN6yuy0i32u9u+HiXSdnuHsN1mBbyz9OKi2tNVI/Sd0H45rekhIerIuj93Vul5pNnF0xu44+GsfcuuG7a5aG407bDQkThVu9ziMd0nCEfeW1xMZOuUnO6cWbgLMa0hbiLrmnUPZWlpbBiZi/OVTW0Aa6t5kLDdCZNiI0G6NV+clIpLfYiGqbZtdPUvDUNM031aqEpZ7emJF2v34l9fs3+Z0fP7n+h1aaKIqSKIrubOTqhjqTRUiVVZaOKIqT0JkshCIoipooilhDFLFehL6EsIYrEVP6EehLFUYp08URTyqqGKYRUkURU2Ko4oipURSyaoopk8UJYJ6EJ4oipsVJ6EehPFCqxUnoQnisRSwRa+9XOhtFCVZcKgWWh094uERHiJajGuMKHDDOSTfOq9z2VOBe8RcI/FwiuNXi83S/3Dn11cJwtWW1uttD1RH95LnO69/wAWkjSH9ZNcpVb/ABliWqxjTu2/lbco7MWkqcXOkqR4cwvLpHq8Sjs7dPQ0rTNGzzfS5uj/AGLkfeGXiFa9kCzmxKI5hRGTko9YvCMi/cVtKOTjgjplJ4t6XCTfxCuCza7PqMl59WyOaVW7p6sm2cth54dUhHMKIkJdXwy7seLSrNZb/kSGuHJEi6QxHT3uz2vN3qcyREIyb6MmxcLVu6RGXly491bCldeHo3BHTpKP79WPljLdWzR9wy6TJaDXZ00S9PJLTGIlqJNycvpVPsd1coRESHOppbo7zfd+X4Va6Opp6pkXGHJD1l+jdv7rh1sP6fFsjyTIGQuDHelpktFi6/lYaF14KGoqHG2Se9mUREesthZXa5y1tOXAWxqR1PR1CPEvbPNHzVuhjlHrGTirmHOeZj1wu1U825vQbyxjL6uW99iMiXgrLDhtqsCuqaenFyk6AWH6tuNWTYxEnJfacRS1alZK62ULFRW2+4C3USccZeB3pGyiQiWkpR9mPCvfb6G311wGnfoxczBcqNFMLmqMic3dWqMusuB1EZY8kvLrsWS0eKmPYZwfQ079PVt0rLFa8WY+7UtypiHVlt+Il1PZ/YcEv4RJu8W+y5dpr8mnbOtaEqkibFwW3ZcXEOri8KoVPiq0v4sLDb9G8zXZLdQ2Tot5bmYyLwxLrZZD5V2PZ/Y7xcMLlUUN0oxpH33BKnqaYXBcIY6ikJfuK0cpKtKL0js7wuxcHXKAainrXR/GhcEugGLZUYjLUMRj+8VvcSUPMW6FltxwabKImGD3mB09GtW9Zbwd2onLr9DXH6Z7NYddpxzmiItTjchEpEQ8O8S2mJBdYepqKoZZbdpWyb6Ll6MhItJCO8Pd4SX1e1Rl6ro8fcMlsTTxRFSIiu1s5uqOKIqSKIqvKSpVJFEU8iKKIqWKIoVRrEVLFEUUjQKYhRFLBYpkyBFLJqVEVJFEU8lUcUKYRSkKkqjRFSCKaKFUcUsVMiKFUMUCKdeG/Xq12G2lcLrVDTsDpHiJwuqI8RKJ5YwjaRV63BiJES5pjTaMLWZR4cbKoIdLldHox/NdYu1u9WSpmNtp9Rfydo6bMt9r6gudM7+cj8O6q3R3NuMQcIt0Y5furiO9fiGUum1g/wDbTkk9uVUP1Djzo84JwiJ4jfIicLtfMvSyxGPRsjq0x6ygZrst6OYMo6iHh/f4lO3WN+0j0eoY/v8AvvLkZdZS9zy8npZGIkQk2MRjCPiLxfN2l7qXnAFq6Qm24+WMv37S1rdS8TwsjIXMwR3uIij8RCPhXtbuEnHC4XBIt7tCq+Vs+VtWXC6It0RkJSHhGTcvdXtbF5pspkJZI9IMdUeEvD90uytMyYutu6pDmZfhyx+LUvY3Ul0DktRC2JEI9b9qKmpVuqd0hHpcvTqcj1fynd6y9WbURdp2nKijccby5sFEh7pD8Xl6q01OTw6QciQl0cuHsr307sox9kXRxj7MvvCt2LNkxStGSoyq9eNbxX1ODvVtE2y9cHmRZfcquXKZcCPSOSES/fs6i0eLKynuOCaa13B7J5kLLzlSDxP6m28si1CO9IlupE62TLrbbgkOoXC/fT2loMQWh5q31I21t5xsmSEWpauEtPZ7K+1073nye6T7Wj1GCXGfxagWKOhoXCOorq4mREvrLmotXWFdE2Nk2WIpNiP4s9xd1cwrH5Ub7LTZOOFHSI6vaSXSNhL+biJ0TEhaGkc1GMRGRNx+EvKvHLJKXuk6KNflbDHjtHR3x65XPZ/ZawqZ8maasdYJt6OqMXB1ahkXmVwZxMWDMO0DbFjpXKKtLMFpp9zQ4US4hLu7yi2jWqoueF6mloxpXKknhcFgXm28yJFxFEdWktXVW9Zac9V0LJNk3kst5hC5pbiI9UtXFHeiUS4U3pNm2oFvYw3jjF1bcnbffufNZb7wFVtk3Ed1sR06dK3t+x/hO61RV1SVwoXPYkJMZg6e7JR4Loa6hxxiKoqaNxlp4ehdy4tudIRaS4l4drVvZGwt1jFCIkVSPSCzEox4hEfD4R4pL0YdZkwztCTTk08ckayT4sJnm/NabExWMnxKLtTaXJbvCREMdUeFNhkqe5Xp+hproNZzC2Ni4+0Um33CLVLy+8vdjyloX7HUvO0rJVdJTC42ekSbEhGWrq+ZVL+D+TblyvMHBIshuWrVvL1w7tqMnWNpNE9HCMePRcRGQoimZ9kPdTLvoS4uanFEsxUiFflJRSKVCeRHFEYqRCeRHFLFTJYp5BFAipEqx5UUhWRFZTLAVYinQnkKX4UJkJ5CoWeRKUR3iERHUREWkViUq9PPUabGOIbbhawv3a6vRabKLYDvPucLYj1l8o40xRdsXXpy5XN7Tu09MJSbph6o/NvEt7texoWNMSZlK84VmpJM0QlpEus9HrF8MVSlwXe+6ynPbh7U5JV49DNyFemnqSacFwRGQjp7JdZeZMJLl5SeGT185cBkW2iKRFIvLpWwZqiKqpmQl0ZC3KXV3vMUvMtMJ5ZCQqWlLkzHHJRg2ReKMfvILHS1VR60piEhiLhPcXCJF8UfdXvpXXst0dJRERHVu6v2VWrWYk67mFpFrtbxOD+0tnQutxfFzdHK/wARZG7papwSdbcH2mU5L9IK2w1ThMi25HdcbLh3iKXukK0DbjJC7lDqi2XvOL10tV9X18L7hDq3Ryaf9pZktZqeqcKLjmotLjna633vdWwbf+sORb0uDqDe1fv8JLQ0dY2TbfEOoSHxfLFeylrBabbEXN2MiLq7pEXxILFTuuaiJsnHWZS4pDxe7HxLYyIxHKHdHMbIR3m/3L3hVeZrhaqhLpBcIctyPZ3fve6txT1jI0shcHoCItJfZ/LveXsoxWvJ57lRsui483Tsi/vFLdcWjt9wleKZurZqmaYXyZfNrSTYjxdpWlx9vOIt37TujLVHul91aDFlvZzhuDbb0iKLwt7sut+/WFVaT73au4VltTbG13y0jQti3dLkLhNiQ5FTlyIqiMdQ/kSzPCtvb7+z9JPV43a6MsFmCNU+TbwjESKRZg7umPiFc8sfthISJtwmyyxju7okXlFbGoqyqZU/Oiyi6Mjjq7qrck6S0V5ev9Q7RkQ4kcJjmDdaRO0xNxEnI5fQkOqWkltGcQXJhloWqiyuNFTMVDYiyTZZLjhNt7wlxCXlXPKfTQkIjTk49IinukO6I9XTq1CsU7dQ487qbIW8shEHhGUR0jLhEd7vKdySnS3r9cqmoco+Y2+oJt0WHBCv4iLd1E3vbveSWF8bZeKm9W/Db2fXtiy+LVS04LmSWooiUiIS3iXNaisrqaodepqchPnLTzx55FIhLSQy6palacA2+quolWVdU4VNTOPMstEPtCc9sWoeL/lXt0OPLmyxhGLTnyRx4/Ml4o3SepxcKncZlwHGSmWUehfp2GPWOPpGTkcnuYQmQt/lJUJkqAQmQnkKhCFkMhCypGFj0LKFgCFlCDCFlYQYXOf4QWJPUOA3KFhyNdeCKmbEd7Kj0xeUhH+8FdI/zr5b29XorztGrW23JU1uEaJoeHTqcLxOEXlFfE73rPT4P9q9sbKBliPyoQjUvzqUrPDKVgiWlLqjJLwqU1SSTSFRCnRl6WXYU7mrURD95bG2vxp3XC4nGx91acV6W3I05N9ZySCzUr5DmELzf2YjFzvEvczU6XYjGOXvadRZnyiqxbXXBZfHTEiHeW1ZIiJ9zTEsn7ylCyW2pby48WZq7pCIj/uyW0LJcERjKQkLg9YS/ZIVTqN0ucVI6fYtl5Sc+Ze2nqXNLcvZxc7WoY/4apXVdM0amlJ5/U6I5xF1iHe+El66PJaqGCbyxAujLvbzZfEP94qpb6shc9p7NzV2uJS21x5qhFvOllREi62WUfup7VSXFnLaeGG6w5EZdXd+GPlTCwXSUerK3WTLzCJF3Zfo1XmaqoKqibmlxshLtDxfEK3FHcKhynbJxltx0m9Ud0n2+HzCXlWCMqvdY8M3TLOqpqGqca/KlTFljpLi6uktSies9cTgkTPVcEckuLdLxcK2D2JbhY8A3u9W/wBVuPWkWnG2KqkzMwXnBblmCQkO95u8rdcMR3a20YvOUbOQ5VuNzzHWyCIjuxc6pS3V9GNZY/a7LS5N7FGflRKy31DDLbfMRp3BbGIn1S7yiZoY5rY08uHSXCusDenHqoW3bbUONkWl0aktJC84yIxiWqIy7siXiw7eGbg45UW+31jbgiROCPNCIt3rNj1tWpOHuq9FZOct4Oulzqibbtdcy02Ii46Y6R1ail70eyS6fTsNsU7bLQxbbERERW0K61xCQu0tVEh1EdsJz3m3Y+6vCOnSuk/D2OPOT5fdJS4xEYpSFOsLrHxSxRFMsoshCiKdYRBYoinWIoFigkyECxQnQjYwhZQgwiKyhBiKBFZQjBKh9ukpXax3S0wyVQ4XZbGRe6JL4rrn3Kuqdqqn277hPPfnCIiL3iJfWu1JzI2a4mcEo/zY63+k0l8S+Qag9XiXEfifJ1lOMGjUS49Il6vaUfCSwJam+6lItK5ary1Z+zisJFiWpU2JBTqCSkEtSJSqRteeSmZzDLomyL3lra6thSkPq2plvZjcfeXttr4nT1ZCPs229PiJeSltlwqRJtulcHUJalsKHD1cLb+a3vCJad7eRXuT0Zjzqpc1FGmbIhEf7Rets4vO6d1toi8zg/eS0NgqArDzJRqWIj2SEvlU42O4DUOkLbhZjO53S/aWxT0UL7JvPxlHoy7sh/ZXqpym2+2Je0J1sS70vmWrs9uqSq7gzys5fKXIw4PajmiXxCtpQ0dY3EXBIRF4h0kWrdL7yH/xuGybfyXmyERIpb3CTZF8Qtr3Usm5R3RqRLzRkX6xxV22jVDb6QiFwSy2Purcs5knMwXIkwJR6u8ptEtF76yhbu9juFnq3HmWquieZk1H7FznLf8A9s2P94us11IziDCTFrdqCp3CrZCYlqjltkQiJdmXxdlcZF15qoqXmiHMEiKJdWLP/BJdxtJ0tDht27c3InqQRbGLnWbZ1frPKvRjlxrF0nZsnDrFPT3Nm2XRi1uUb0ubfVpF7TTEo9ZwR+8Pe0ez1pyjvDlKZdI3mCUeIdJCXlKXiWgbvlPcXnxu5E4w65IiDSTRcJN9ofeVvs/OAxQ2zXE25UttlIwHS4JCJC4PVlIiIetLradkeL7a3vF9VcHskq5/m/8Akt657FzVHSSqlyutPQsuOOt1ERLeBgiXVfh6cYxm+N3SPKL3IRJMuos+SVCZCpgqEyEZLFCZYJTYYWFlCoCEyECpkIQCVMhAqZCIyFRIcd29bQrfTWy4YHtwlUXCpEWa10hi3TNylHtEUeHSvn0gEikTm8rztypobWL6WYUSebLzCJKkE3GMiX5p3TUSy55WePUS5VRi02PElcBuIqQoxLUO8o3iGQ6l8xp5MZYSQQhyElJ0eslJ0ess1kqsknoDqrIxlpFQC6PWTC6Mt5KyKybBmqJvSJCI/mxJetm8XJgSFiuqGRLeENMlqWzFSTGSmrXVvaW/XhwiIblUCUYkUt5elu/YgEsxu7VHRtlvCJRFaS1ue0HsivY2246TkGyIhGRDHh6ymXFMpSb233fEjtdTEdychFxxsyZa4WyLq/vJMN+xFTVVG8Tw5TrhRI6QdWkuytFa26hu6NC3mNulpbjvSLT973lBb+Umq6jbp6iIOiWYEpSIWy4fdWyPKTdj5deS4OYoxAFyps1mjInW3BbImCEoxl1tQ6fdXrocUV3Ph6ShHMbkIkxvRjHi7X78NGFh6mv1CTDzgtEZlpLdOB6h8K9HJyOlcWxKsqoc1dLW4RR1Bu9Vbqx/o20i6HS4hczH6F2joXGtLg5REO9ItO9xCva3f6cqciftreY3JshByIkMu7pVJpxeB7OKoqntLXSm6RODvaZFvLYUpENO4224MifKREI6ukLd6vW0rS1SquPPrW+2Q81qm3NIkWWJaox4S4hIl2TBdZ9IcA3AbYJPOZD1JqGJC5ktjEpbpSkK+esqoOqfF8hcHnNNqHSWWTkY97V5V1HYTbrsdhrnqb1e2TTgiTh5ouERNykLjZSHe1feW7HGr7HaLQy1eHGD5OXTLfp26WppGebPiTkpE3IeHyro1C6P0wYGMiftzLnDp6Mh732a5XjyrG8Xp2qJxtwm3CYedEswXSbcKRah8I9kRXScM1N0udDRVTFHRuEw3Ft124v5kSkPVLqlpWy3J1C2vD0bndVJxc1K2i25JuRORLSMejc63xKw1FTeGhEamhImyKOmtacl5mFx3aNfMSYXZFyqtdv5s5WvZJ0zkczoyIeHTpKO79n1d7oOz5Kwm+X3KNpRdXpybdZbcaGIuDIRjHe7KaBcDnhJaLD1Di2hp3BvF0s9Y+UdLFvcaFuIxIdTur3VtCC4flKUu6Lgl8S6qGTi+PVOR5YkTkRGPCssuNuCJAQlIRIYlvLyuNXBwY5lGIy1dCUi95GXchEm8yhIZEQyYcKP6xVvf8FXuSrx5F0kUaij7rbLhf4iqDl1x43j5uxuW+lcsxPj/OI0hRFvJlHejKXEplqK/sRx2XsUEqReMUXChuDlG48yTjTnSRIYlp08MhWirNpMSqWW3qcnWNTgg8REPejGK1y10Iy8N0dLkk6ogpDvDFcFc210+XF0ukLhyH3VBy7V+R0B5adsImRcnJCiES094lpl3CCo6Ob6BQhC+lZ5QhCZLBUJkJYCYUqNUSitGXJWNitnyTtcuHrPaRe6qOSI1OTAS/J9HL3VUXhEZFIojq3lq6yuqqyrfqqx8nH3+QXHTLiMhkReZeurcEaQxlwivzXUx6yyWeXLh6xkYSZ5dQ6tUU45ZNlpHSvG46AkUfyslK2+3FzUWoiWiWOrXLGYuQeqKWQlLSOlRPPchEKjzRiaRiRxph5RIh6OMlLEZborw53J0SfnAyVVVLHJ6ZiJFp3VLMcsS6y1wv8AtC626pW3ZNtjycKbZLG9zL7jZETThNl2SXrp7remB51TXCsZ3m5g8Qx0rXtyKUBIu6pOXlqPV5shSve0zCPLKI6VNUxjybKkxXfAq6T04luQkLoR+suFHVH5l7ay914NC/WXjlbcYJt5noGtPtBIh0d1VTkdE7jZmesYCXpGOrPL7q81W9UGzWclSBSa5AmBaYauXhXs6Yf6vdHTx89Kr89crpVBTVDV1bOI5rTvMmJeEhAf3JeoK+5lVZ1VcuTlKnHSXMqbSJbw6Q1CtBg8m3MO0A8rmr0EPW4lu6/kIbc1UNC3rOk1SlpJxv5l5uttyryytuU/5e6jvlRUkbzLlneall/iWnT3SHrEtrb6twm3I0tteGRRLLIYkWouLrEqI3ygDNxZbb5GwK5taBHTEnGpD7xKwYP5Kdm2XBimIctm4Pi1qkIjPT7qzkxcbM5sPiN7LlTviUnHba2IuONlpfIYkMi6pdVdZ2P3D1fgXEXNKVwipPrLcyGLhc3HT5m+quDVz+XeqQqaoJtxttwd7SQlT1BDp7wiujbH7hcitt3trj2YwVhfefMh1E625liReGSR08o8nt7bhnjywnL92tqKlypF95/2hPOE4XWIikRe8uubJREbHpLebkUeL6xU/KuPYqJm3CVPnCWZFwSLSXSNi596PhXTdkdcLlhkIlJsW2S6vtqkpfrFrjLk6yUV8vDkKdsuHpJad3oXFxXHlxbxdh2hpRp6eXPybcKpEotxGIkI6ZanRiXVEl2G9RO3kOopNubpf2Li4XS0dc/Q01ZTXiLhN5jObJwWyIdOki3V0Xac2OMetuvh83XY5SrXo7CNS262NQ4Qsk4OZE3B4u0vLVXiz0gkVVdqFkR677Y/eXCrbh6owhY33rjfm7gOdETJiLkSiIiMi6y82OMCXC9OOE3UUIlki2U2ykPSERDpHV1fEXZX3Jdzx44/F8/Ho7Sq+jO6QkPZVfx9d6yzWEai2vU41bj7bI5urSRdWSoFlvWOrLbaSnuY1l2qxGL1YL7Qi6UvyZRLTu7q5ntMxVcnMbFS1lrc5y6y1ljmDHLiPvatS1y7pHJHi9H5bWVpSXasxtix9mte+llPR5A9GAU1N0m7KUm1E9i2oKnbcdxhevaRIWH47v5uPurkf0juB87p27WMaTOJyb2mQlq96S8jl/ujdvYrG6GjbFx8WRGRFHTJfP3skvdJ6NnHFdL5eHH66JXCsrHXilmvkREQ8Mpal47gVQNGWQyLjsSzCIo6uz4VWXrrfOfUlLzijEXW23HCyS0y6qKO63Tn1dzuobJikbe0ZIjmR3VptyWKVy8ZLtyGlcEvYi17Mo7w+WSc6W+ttA/St8jlQ/qdLl5fQYf9UpLwjiO6OYXq6oiZGrz222zFvdElDfb/AHTktVo5Wazlp3H23CfMBGREJRRl93IQhdc+EEIkiSWRUyEqZLKqPFxLl2ONrfqG8XCz0NhKofpHsnPdqRFsi62mRLplQxnx6RxuMt3L1ae0Je6vl3bQ4VNtIvbIuac8vNlj95fF7zqp4sXmKcn9uFoucjbBAo8pSiMSLrL08zZj/KMu8pXHOm1JBc+sR/zRkuDlkySfJlkySZGjZ5PwNilyGx05Yr0S06VCTi12k12kxktcTY+VLlM8Iikfd/l91YFxVyZ5J2ei3dPdFTc8qB3XC8oryZiXMTkzaT3jc7gA6aqPlU7eILw3pG4OCPZWnJ2KQXFnkrk330hvQ+zulQPiXoo8V4kKsYb9dVkcwd1xVrNkvRbS5CubAy/lIhWeRyX16/XrSRXqqcId2TbZR91eIr9fhJzLujhDL8i38qicAeIhWjrmCrqB0hccFwXSGIjpiP8AyrOOUvuYxylL5m3q8Q4gb6N2uEeIfqw6e0vE9iG6E2Ob6vcIY5Y8yajp8Kq9oqajkddpD5SgGr0FwLYvDEfCryWjJtyWxydGZ5u62285b7eWYIuRyJat7rL1NusiThBbaVvMKTwgRDLrLx0YfU2CL8iPwqG5ZwUucFU42623mCPCRR1CQ9Va42eeMpSemsCjqawKorWyLoiQi6LxbpCTe7u7rhLe4f55bMgqZxwWebEy80LhRcEtWrzLRCJREuIlusxxihbJqOZkkWoerH5oqoyn7VY9VljPjL2u3YZrKPGNG44VnFnm2W25znL19ofCp8B0tRSevaeupxZdG4jEYjEm8tuMY6YrnGG7hT0NtfJ2uuDJE83EKV8W5CRRlEu8uj4DabuTz9Y1dLhWM0hCzB9wSEiJsXJe9HvCt0skfa7btuSebBHJP4t5cvxciHdi54ejJcctNtw+7YaFwaG2lKmbl0Y70V2e8NCNKRZZcW73SXE7W/h/6P0JOVFjjzYZSJrq8S9ml9r1ZlH26NU7X0fcAWRlXychxEJM73vLe4y9aVVjujjdYVKVMTjjYtSk5FxzVpIeHvalUNujVr/mDmPMxdz3iLKIesz1fEr7UDVOWG+siQuOZdSJT4h6YuHs+8vXk9vRrxub3K4EGBRrnXHuexy26kqkhL2nCMtXF5V48WNZ+JqaouD2ZWuNtxIB0l0YuR8sR8K8mKGLK5guherKhwbgI/Uv7TpilwqTGDtR9JqKDMYtt5Y7siKlbl95Yw1VkeDLoaYrk4ROaWyJ8u9qKK1FRc7e3htp4qOolni2LRFqlHs9lPdHazm926FvUwOZq3dKqWa4VvGjFnSLguS8MfvL2NK51l1oWrxb2woyczm2yE8z2Ylu6eJeuqKnFy7CNGzJtiREUukkJSVFpauorK2gccyxcFtptvwuEKtdY3WZ12lVahaHMi3vDElIp7lwccoyZLko6dgouQbb3i4eJDNyr+RinbYNkxbcd5A5SZE/RyaesK8hNSEekH2Y8XZRS8kP5cwo8jjnJ8Kok/RhCELqLPh1CEISyqhZl5VhV3aJarxesO+r7HcvV9bzltyecTchEXJDIdW8Q+Va82SUYWFm3WycIoiIykS+OtrF8t962l3u4WysbqqE6giafAtJjliMhVyu2BcTPk63dcRZmW5FwxqXHdXeIlraXY+RkJHiARzBzCEaTd6o+0XKdw1k9VGlfCpafLKNfDmblY4RSFkvKsC7Ucr+YLLkYx3CXa6XZNQiMTvlR4WRXpHZRZx0niKu8OX8q+NHDL7XnjoMv2uJ570dTbn6NQE44RaRc8q783sfsZty9dXYo9Umv+GvE5srsbf/AOaXKXaca+VV6epHts3C3BeLVlub3VWYVH5Nzyrt1Rs0s4txarq7tETg/KvDa9n1tOocp7g9chIS3mNQkPlSWGX2q/L5uQZdT+Rc8qzlVUfZku/U+ynC7urn1+j4R/w1K9siwyP+nXrzD/w1n00von8vyvnvm1R1S8qyNLVfk3PKu4VmzCwsSjXXrT/Z/wDprS1Gzwsz6tWOZfCL8ZfCsbM/tT6HO5XT0b0ok4TfayyW2tNtoxuDFQ/eibFtz+oOkul2/Adtfc5vU11ZTudWTen3VvWdjdlf1FeLo53Sa/4axWX2q9Hn+1RXKW3ybIbxIY73MHV4aC004UJU7l4pxIjIi6Jwd7wrrVVs1tdK22JXKoi2MRzBGXwqvV2DqNjSNwIvCK8+zP7Xn/Ls/wBrl4YXJm71NQ3eLYTR7snHJeLo09RZ/SJRuFrLrdMXyq/t4QpXRKNw92S9f8Xzbulu8F4mf2lVckuVTJos8pfB5KGhJ21tEw9SvdDpg8OrT2lJcrHXP2d/mxSdcpiEWhqWy1EPeXpewBdGMsqG/DTuiWl0WdXxLd2+x1DVLGpuDlU/KWaYiJLG3KLX+X54+2KvDbKwd1mUR1QcFyPlWyqKOsC1k5zN7TRPF7Mi1dHFbJu1OMbznF1VtGaGoYp84aghHeiK18rNce2am1qNFVZjGVEXB6PhHe3V2zZfSDQ4Pphi3J4W3iMR3hKXa1bq5zhchxay76qp7hXMUxEy+6VI4LYkO8MuJdGwfVvOs5gvZlJHLbIR0iQ8Pve8qjDlZ0nbcmXDCOCUG5vn4iRdUlwmho7S/Y7eT7dGRFTNyk2OrSu53BorhT83aeFst4SLdLTurjFCLNNb6KjfbJt1lsW3Ayy6Mh0kJL3YZcer62ZzLbtR29ujsxUw04kVaQyiMuFXiq5x6rvrYPScy6sZH+T6bT5VTNu2WdPYsuP42Uhj+bVtqCqip8QC3VSIudxKPDF6I+VerNLhFrj7nK8UepywTbXLgLxXLUVuLhkLmrs+ZT40/wClFtIujiyxpLeIuZt/tKPFXqf6B28bhTi9XPOODRO5co9Jq7vCoMbPufSShEaciFtliOr2n1NtVhMjV3AWyK7iThRyBlEeGJLntQMnI0ZPPNx1ETcSV0uDtQ4N2+r7zA8W7pJUkhLm7bwk5qHrL2tL12NylB6hzCqM4oiMBGI9Iry8TfPruRSIubjLVvDElQraBNOUTkdWWJD+kVtqH6g6y4ORbEnGBEurGJLHzJU98GXqBomG3Bi4LfSuCXD3RUrGWxbKJ3loyeIyP7SKgIi9Vt6RIZCXukvTQUlRUW2mDkJsRDkcIZd4fmRss/QwiRJa9670IPZJVAylEilur0jVU+XLObj3l01nx6p0KEXW3PZkJd1RVFdSsOZb9Q22XVIksVeuSouOMUVHN36Gxi49vC4+1xF1RL7y9GMr08/RlQ2iUXvbujpKPVFV61tFTU+WY6pEvDqM3yxbseP5mpw604VppmbkyTLuY4TgmXa1F4pLe21pnJJwftS6xez4V4XDlIgKOYWW33eIviXubc0xHdFfL249Onh6rJ26ajLeZEu9qQ5b2yLoqWhj22ZIbdXpbdGKrbiWk8JUtQ1qBu2j3WFALr0i5y5TiPYbWwqGiqy9oTfdTUNCzTVDTwkRZbglEuJKxZeS4MVFM9zerp3G3eoQxUVVTVVM2NdzWobbHePJKPmV9+mN0Yb05Me7FX/D5lecKtVVwp2Xiq2Szg4XBKXD3UlP5Wra5WfEu1jHV+t2KCbtl4rKdkqZkhaBzTqlL4VUB2n4wKI+vK7xPfsrb/wlaWjt2N6qloxEcitqaaZbxC28QjJUzZdZafEOPrRZ6ssymqH5PgPE2IkRfCsFX2D/AAdrTcMRYEtuIMQuPPC6TpNE+PtxznBEu7GMesuz2e2W0C5v6vo8otJBkDFc0ocQ3SLVDS1hN5IiLYA23FsR4d1WK33K5MEL1TdKh4hKUByxEfdUSrFujF6MS7JaWpdKoslWNKXCw+3Jse6XD7ypX0evluuDtvqqGhKpb1RBtwpD1hi2rzVYmqjIXDkWn8ovP9JqgtItlH84vPKTdRrWcK1xU7dQ/R2twXBlERKQ94ctP9Cqh1sS5nQi51SbHT7q2A4hcjul+m/ZR68lqKQ+JTI220LDlrrrS3R3i30dQ6IxzcsSIfFFUn+Lx4rg63SUtLkC4WW+Yi3Ie6IqwlfO1Jecr84O6UVXlOy9Fp2fWVrVXPOVXZDo2x+8rBT4cwy0MRsNtIR69MLnxKrevnpe0JZ9fOS1OEp8q21vCy4Yj02HLY52uSjbH7qwOHcICBk3ZGxF3SXJq+bSqqN6IuIkFeC3dSS6RVGKy7PrNR4Xp7hRsDT09M/VlUMsMEUW5d7uitnVNW3pCpRZbIik4AtxFz5S7So/rFweLSoyuJFukSmsfaV5WWh6miUgcHrauFUKswddn6x0m3KMRdcIvadqS2RXJzdIkc8cjq1LTHDGMrNlnM9o2x/EmJaWibprta2yYfceIn3iHSUYxiJdVb9zZpcnaGtbG7W8X3xeET1bpSiO72h8qs5VxLHPnOstko2HM67YPXV+D2rPVXax87EpNPk24WXqlpGIxUd+2A3a53KmrPpZaWRYEZANI4W6yLO94V1H1gSw5c4ikeJKTkL38GyufOrlja3ti+3lx9XOFHe1e0Fa3l/gpFlBT8m0pkYjwWP/ANddnqr03S07tRUvCy0yMiIi3Vwnah/CDcazbXhIt3S5Xn/hj95bo3TWx7z/AAdbDh5umqr1tWo6VtluIiVpiRDLhHPkvOzs5wDUi/WfxjVmW+OWP82NtCUermOri72I6y51ztdcKyoqql3U46+4REXiJdNqj/8AYjhlzrXar+EflXnyZpRbI44ne2Y7MQpuVgce3VwQ1egWmB9Me7JR0+zvZ8eWzQ4hvVTyMSL+QRIdX90Kr1OciXS9jVEzca66W9/kc5AepR5S5QMg5eTlzBL+Qh7q0+qn8Dbit10fetFwcobnb8urbKRBzkd0t0d37yWjvVPUvc1apSzClGFT1fCq3dL5UVlRVlb2/qQsiTJlTReiI6tIlEYlKJD2VLbbLVVw01yau14ZdLpBEKQSEe6vtR10ox5SeX07oNHQ59racGoc5248TbdGJdIXZLq8PypisubcCoReIXcnObAhEhcHhLMlqHd4eJUmhbulNiJi5VeIrtcnX5NydpMvhIhJuI8JD7ygqrndrriKVSLhNWnMp6R10SzBkRORkWrTLwjEVUdbPJKseqZYYxistUTIvOt0xSbZIm5/lI8S8dU7lsuREiKMR7xKOlPLpR4SFeasfi84UtLTcvEWn5lu5fM85mdTxR3Whyx+8ubbWtoFww/fWLPaiFtxtsX33YiWrhHV2dXiXQqfQ2IkWri7y4HtsYeDaNUvODpfZZJvu5cfiElpycR3zCN4G9Yboro2IjnsyIeqW6Q+YVuRc7SomyBh2l2e2tt4IE4Jnq6pPE4PukKujLo5gyGSyPc2cd4lIT4xkluTGRkdZxhtwh7y8JEUSWFJ6qpcJzJa9pwiXW4V9EUIUdhw4yNW4LLFFTiy44XVEYy91fPWH6Vsr5b3HXCJsalsiHrah+9FXXapenq6qbs7dQXNmIk8I8TnaU1tJVnyJ/CbJypx5V1QNlkVdfU1bJF+TccJwfiWz/g74POmrmMY3blNlrKMaRoR6QhMYk55SIR70l0jFmHrfdXmOeDmZJae6txzVlu3kIlpy4jHSplGvFUZWdLw/YLq/Z2Kq1WCoKmfATA85oSMetqKS19fcnaCvOgr7fXNVIDImuURlHzal1LClzcawza2RZbgNI0OrstijEtttuImWhrqcRdYKTDwe0b/AH6q88sbZuOaPesG7k3a/UtwGteYJ9tosuRNiQiRe06xCh61Yk4MP3Ii6oiPzK1uERbZGCGUWcPkXmqP2VqtrW0ulwgyVttgs1F1JuRTESbYluy6xdlTHHKSpZFAu2LLfarsxZ7iNRS1z5ELLB5cnCHejqXs9eMjvU9Z5R+Zck2hVb1y2u4Lq3yk65TE84XWIikXwrpD3sZdZTKLZaL3OYstNMQ85GqGRRHS3veZR/S+zk3Jtuq1bshH5lRsSactwd4XJeUSJDwwpxbGOkY7y0ylJm0arXWY8sNG2TlY88y2O8ZiMfiUjeO7C5qbce8o/MuO7RA/o3U7uomx8zgivbRgIlElrlllE4uuDjazx+28Qj8yVvHlrIt16PZEfmXNREYxGIpKEZNx7S1+okzxdULH9jCOfzjVpHSO91d5M9tBw20MnRqh7wj8y5PfIg3TdYatn4lDemyydOrxKt6SpRi7AW0LCYkTZPPSHhiPzJf4yMK6h5wWnrR+ZcTrtd4qYxERLURPEXW4fL5V5Kj8YISpyKW70g6t79lbrJ4u1V21HB7DhNu3AWXB3hIhFeWu2qYLpXiZqr5SsudU3F8zY8Jwbs62RaxZbl3stabaqX9Knx4eQiitkeUk2jWz63odoWF66l51S3hl5qUZjuyXut+JbbcKpujo6huofdLowkWovKvmzZbIsFvl0hELzm7Hejp3u0uo7Nx/pQw5F4W223C1k3qiJfdWnJKUZKjKKs7SHMQYvrNV+bobe3IW6EGdPeLVqLUud1mztxuoMXLw4RfmP2l0h7nGdljTvZpb0XmtWlyXvZZKO4CXOClvZYrZHJKX9GmTjeJ8PnYORh7n3OM3lj7OMfeXVxzHP4P+EOsV0rS95UfazyfUqP8APl8KvlG6I/we8FkTZF/OVaPvEs6iPHo3aeTTW+meIhLSun7IW3Keuuh8XNG4/pP+ZUS011K2LYmy8Jfm9K6HsyqQdpLjlgTVWbAvHyEO7yZgiI+VfO8qkud62ZUbTl7Zat9Qy20Lb9OAF7MdOlvtb2nVwr01WH26GlvNK1Q3ZlqkpGMltoXN7+z7WnUug/TS5b30XukfzZfKmpcbXA6NonML3TMIRIhyy0l5V7PRdfua93+Lm+IMK0dM9cubW25Oerrc24xFt0oy6se6MhHtLU11s9R1A0It1AkTIvEVSMSKQ7xLrzeMbg44csK3ZtsSGIx7KoG0L1tfMQc+Cx3JkchtvUwREWour3l6NLg6452lJpzZLR9qqVDkRLVFa8SzHhlql9YcH4R/fqrYVllvjvR+pblKPSRpnN3rfdUdPYb4Iuuep7lJwtIlTOaR8q+tKcXk8NJf75Q2K0P3KvIhaa6u8RSWioSwvtDoW652jJwqYiEpFFweqMh4V59teFcYXHDtDS27DN6qCKrkYtUTpaY6eHrLWbL8E44s1HWuVOGbxTi+QjkHQOiRR8K03jKVWZRdTwjQuXWoJkqcbbb29LJEWpwR3iFvhbGPF1d0l0G04XsLsRb51UZjwti6TxN9mQiPaLtbq5rh234qaoxbfst4bcqX4uEVE70bIiJEW7xEQiP5sl1azjcGsNlVFbaoX+aPZbRMlmS6Yh0+IfKttI/crwsVNg20XulZZNjlZdomm2ZNOEMm9US7XFq7JLS37ZTcGmSqLLUc8HeyHdLnhLdV+sxkGJD5IEI8uY1y+kdMZSEvd95WgainJzlbF5uX+rkJebJ1rJVXy6yVVaro2L9OTb7DwlAxiUh1RJFZUkbjjxuEREXSEXEu2bUMJs363HcKMRG6U3J6WyH7UeqX3f2lw6utV8MibGz3Iut9Uc+VVGVkyjJpnCzHCeLi3R6qlbfzKPLLhcbb/WCvT6hxBHTZbp/sjnyqAbDiIXm/5lumpwZfVHOEpdVMkiPSSzWGqulwu1Db2rhVCLj7bYgLxREf+X4V3N4YlpFcVwO1cLDemrtcrHenBbzBZBigccKWXGRad3US6U3iqqrBkxhm8R/7TlsfEUlqlyXGKs4svQ2XHlyuAEOa1hhkWZcTrlY8Ij7vurgmIsy4VTlU6WY464ThGW8S6Rjax7QMXbSK1yktNPb2PVjLM3Xvq5RccIYuR1FqIo8K8dHsZxUQyuF6t7J7ogw245p7xRV4JY8fuZyxlL2uYYukG0zDNUQ9BRWxtx4h4RkQq1li61x1OOfo15sbYMxQ5jb6th+9VTTFuZp89qkcIXCF5ziEe6tTUYLxk6QxwnfhIXBiPMHdQyHsrXxk2cjXS8t1zbosNl0bZFqHijH7yrbmLLg644I2vUJaunFW1vA+Lo1ZfRW+SJmP4k7q1D2VorXs8xxmPk5hPETf1knB+pODL3VprGyvMqqxiSru11tZUbdCLbjjjZDJ4eFwS+6vc3cLoRCXMf1wq0vYAxo7UMF9Fb9HM3uZODHSXZ7S9I7PsaE2Lf0ZvQ9rmzibcS0lPbvVdU5otMj0ZR3uyJD7pKWjudUwPTsx7Ulu7Ls1x003Vtv4VvDZOEMegIfs2/livTWbO8aO5YtYbuxE241IIx05gl91TsxZtJX7hcHqmjInG45bzRD+kFS0dxK4VBMk3HLjLUKsL2znHBMlHDdyIicaLVHhLhkS89l2aY8YuVS47huuyiJvWbjXSREe14fCpjiizKzWVTkaqtcdLSLhaiLdHeXkqKkfW1NTjmETjeYMfZ6f+ZWas2aY4fttwbaw7VZr+blib7Q7wx/KLJbN8bDXNOO2l4W228uHPaYW/ec3lfFr5ON46iV6q+yIj+rWm2rf9Lqvk/tDXUcUbJdolxudW4zh4OVtz2Zct0oR4e0+vDjrYttJuuJH62jsNCbHKXKQ8rl8oR9P69Z6eLtnKrx7IekwXUiQyEnXJeVdR2d1Y11Y/cBczG+ZVLkyGMtJCtJs32W42tWH3KW40dtpX3HiIR9cURfC6rlh3Cd2oGbrQ1ldaeduUDrDP85U3tC3d1xTLpFrjZSyfbG6MU4k5IRzI5enSJDqLxFpXlu2mscHsiKu5bPsSc8be9ZWfKESHK9aMebeXmrtneIH6pxznFjiQiI/zsx8yzHp0TKMnC9q34nQy4nS+FX21kX/AOH3BMf/AN2rZeYl6ccbFsZXhmkbo6rDfRkRFO9NfMrbaNmGIqPY9bcM1Fyw+5cKa7OVMPWjWWDJCWkS4tWrxLGbrxejDGUVbtoN1blNb5CLbhSeL+zHe+VdQszLPNK0tPsR4f7QVX8N7O7tRvOvVVdh/MKItxuzRCI+brfCrzarA/TMVWbdrH6DbHkAhuLZcQrwxx9VLv8ARy2g9L1lXEJfZE/pFKOHqVsojXVhcWt8SVJezHahknIkTY5Yy4RkmczG3G9WpfP9Q9m2uQ2GhIhcKurCju9PvfvFe2jtFrB4cxx5zvvjFUJs4iItiOreUJOuG4XDvEKv1XVO26G5Y7WTzjw5jbmWLekh+XTvKF6wUIORKsqhLsvj8qp4k5ktyIi6MRLUoydeIilGPVVy1XUjhW8rDbcz/KFRLq85b1e6oxs9nKMbo8Q7v4y38vZVSFx6WkfKmg5wskPhWr1XVW0tvqeyiOWVc5JtsiKVWMu9uocstnIYt1jxDEt2pb3fKqw5IWy0jIhilelERIdUSWPVSNpZ3rDZxEsysqB4pDUtjH3UM2bD7FRzga7pZSIiqW97yqrDmODKKVwXCb9np4VXrMhtLj6vs+X/AJQcLT+Xa1D1t1QjY7DIZVTki3frLer3VVMxyQkIiK8jbjgkXRy0p6zIbLoLNsw+LYslUDLekbwkSgqsOWN1xt7nzzcRjFqrERLvCqIThCyJFw6eFZozeycwt4i4eJX6zibK7eo7DkukVYUY6jKrHTw7ySlsuH2Gcv1lmauOrbIvhVSI3DLUOmMY9ZMTr3a3lq9VI2ln9UYbjErg4XaKtbkSb1Hhv+ueWrb+VVIXHnC3i4uFS5rnVJPVSNtZis+Fw/04fFUt/eFKVownplcG92P423qVaJxz8pFKREUZS07qeqkrbWYrPhMv9Ob/ANrFTs23CoCQjUM+J8SVQcLTvEK8zjsS3pd5T6qSdt0N5jCLo7ttb7rjYrzFbMIkJfiPai+Ko7bokWpxse8pWXW22Rc5wyIl/aLd6qUjbXZumwiAxy6Eh/PSQ41g8R0s0rfWICLUqXzynHUVwpW+0TwpSudvDfu1vj2qlsVp3pK21vKkwjpcjSiQ7sScQ4xhMnCeEaWUeGSpZXmz8N+tol/3tv5lGV/sYlqxFaSj1q1r5lj1Evoba7ZGDyiJDRkUYlqc3fMkZHBYiWWNPvfk3FSXMQYbFuX0itcuL6238y87mI8NiI/0itv+1tp6iX2m26HmYRbHSNK2PZZcUrlzwvzfL+px/MF8UVzB7EuG4/8ASC3y/wC8CvMWJcO8V+t8S/thT1Evozsur09ThdhwhacpW8zUQ5ZEl55hmWlynHrSbJcj+lGGcxx4r5S8IxFxK5jPCojqvjJF3S+VZlnl9GNt1x644Zb05jZF2WyUXrXCuSUckhbLhY4iXHPptheX+WB/Rl8qHMd4TESE7txS9mXyqd6f0Nt2H1vhkS1Mj+gUb18wuO9S/qBXIHMf4VIf8qEXZFkl4nMd4V/rzn6Ele7k+hV2f6Q4VbKPN4/3Ir00+LLCwXRCQ/8AXkrhTm0HC8tVc8P9ySjqNoWE97nVQX9ySbuT6FUGbtMLdrCl2Xx+VGXtOJzMKqcl1ifH5V0ZsNKmEBEdSuqdxzPL2mSGVYWn/tKYaPaU6MRrI96r/ZXSBy5aRkpYj3UqbknNBpNphRH1oP6f9lZ9VbSOK5D/ALWS6QLTct7iTRilepuScyK1bRpf5U8taSZu1bRNUrwI9kqtxdKIdWpZEG+qlTck5uVl2hEUvXn/ANW4oqq0bQAEXjv0tUdNS7xLp46tK8d0j0DenU9q7o6lNTck5t6ox9pErw5/tLikGwY4cHViSP8AfurojbQkMuFMTWmSk3JOd/RrGn/vEP6V1RlhfGAy/pIP6Z1dMFpAtCRbslVTck5c3hPFmcMcSEP9678yl+ieKi38UF5nPmXTMhvOGI8KhGm6w+ZKm5JzkcF4iLexQQ+Ei+8m+gF4/wDeYf8AZ/2l0humIdQj7qkyHo6myj3VNVbknLywBcPtMTf/AE3/AKiiLAFYMiLEXDvc2/aXTRpnCl0Lgry3akeGlciy57PShuSc6o9ndVU04vFeiGQyjzb9pSFs1IRl6+c/2QfmXS6VghpYxIUxMPFpJkopVO5JzItm+r/Lj36AU38WjfFfKr9CK6W3TFHUJS7q9I0zxDukqqbknKy2ZUP2t0rHP7lv5U/8WFrERI7xXdWMW/lXTnKN4i1bqXmj2ZulIVKdyTmbezW0i5puFyLxN/KgdnlpISHnlyIvzw/KunvUjwt8Wpecbc9EvMityTnQ7ObLlyGouBRKJDmqD6BWMrhzcirIxlLPJdKG3vZe7EtUl4LXb3KmurXPyZCz5Rl95Y8q3JKW5gCxjulWF2c8kn0EsY7w1H6dz5l0Z6zvZg5cZKFy0VG6RLHL6m4579BbCPDUfp3PmQ5gKxjqy3P05fMru9b6jnBNx0rFRaqgWxlEVPL7iyjjgex8VO5+mJKWCbD/AFX9YSvDlsqhEZR7KhK3VW9likZFlJLBdjEpczGPeJYLB1lHdoWVdvVlUQ+zGKHLU9kyy05fcmygN4atJZkbezESjuo+i9pl/k9nyq22221DlPmEI6iIt5Z9XvCPs0/7FlY+jlnjpt7PlXmew9aR3bfT+VWvmbjeomy1KJ6ic5f5Rb/Cq/7FnQmaFwtI70SJDdMXSE4QjHrKDDbrlZiIhl/ozpe6oLxcOECHe8y3Wa6to3R5T2pxvdEtPaGSn5qOWRZwlHeioLs/kW+gcERzXLdTOfqW14rHUi5Q3CoIt15jd7r3ypZVWyyGc5tsnBHMcEfElyqcWyJxzurSUb/O8UW8SlHnLZb3aRfqqBOU7W6KWKty2wyTIVEiIXtQ+aP3V6KdqlKbeonBESIVrhqRYw/bXh3iYc0/+IeH7qgwvUiRXZ5yUslsh1f2imyW4IaUXmmfyjjbI6usUVrXG6U7gOWI6Wyc/fzLWvVzjt2pHN0W32yHzCjEzuRcrgIkXQ9HpLiEi/ZSyqrKyNKVO0TQiWYMkjZUb4vNgMnGcuQ9WUv+GtTR1IsYdt5DpccYIu70hD91RYXdKV2qHC3RaLvaiH7yMt6I0Y1DTcdTxRHypR5u0JE5EVoqWpcq8UUIkX2wjp4VFiC4Zgxb3ZRFTZiqyN83KnaqhEYv0zVQJdUXGxL7yKd9l9knGxGIuZfiWnrLgTVnttOIiMaCmEvCyI/dSWmrJjDtW5xFVxHs9GKqxVuaWrZOqdpftMknJeIR+8lqrgzTDEtUijFaDDb/APPj7zmoebOR1eL7q81wqSfuzWrTnCpsytFwdZps2UtJEKgqjGpZpnoxzm23CEuHTJaTFlURXStFvdz3BEfESW6VxN0NCzLSNI2RdroxU2ZWK31LNXQuvD9i+TPlFspfrElHWC69U07eqLOZLq9II/eVZw7XEGGa0RlmesSIu7kt/Ko8O1zgV1c9KWZTEIj1ekFVY21r9YNhcqKjEZE5KXlJRXa6t2+3uODqIZEIqr2+sliaieLUTbn3SUGIHXKlt0RLULZEXlU2Kr1eqsaORdUtK8w1n1FqsIR6RkSkq7i64E/UO6t4iGK87lYTtloadsi0skMet0zim3JVeKzU9y5zbycLheIfhSUNyKrrKtsd1jL96Sq9LWENpyd0ReIpKCy1jjBVoyKTwiXlIvmSyarNT3cnbsVCPEw4XikK11ru+QyxlxzKmrk4XZzPliq/S12XdHqwJdGy4MuqMV5qVws6ibEo5RNx7JKbKqveJLqVI2TbRDMuLqoxJdSpKdyoHeId3qqk4gqyqaqPC3vdlTYmrCdeFsSlxOSTcKrO9WZFrZqCKRkyJe6ombiTllpqh0ok4JEMu8qzdKkit9MyRaiERj2VE9VENpbZkUiGI9nUm4LNQ3cn6HOdIdLhCIqOz3Nx9mpccc0tuRHyiqyTpU1t4h1dH2k1vdcprO6WqRFu+FTYqsVvuZPuVpOORFtwREfCS1/rUnHKkswottrW07hMUbhSHpI+ZeIRIadwpaScGRdbe+VTuKqs1vq5VDpEUWxZHSoPWGZcCkUWxbIVqxccFl1wS0iIyLrSIVI3ppXZDLo94h7QpuJq9bNwlVdJpERIVDyVRVFbycolEeQd1a+LnNXXJaoyS0fI5ysz5dPJ/rTcVVfcHmXrZxzUMqZ+X6MlrKhyb0RGUdSjocQ0dI5oIWxISHe1RLSvMzeKFoicDURcRalv8yqlYsROxp7bvD/NlM2Phbj91Ja+jw/dCLSIvU2r9N8y0lZfqN/IcdczMpsRiW6sfSOhOldZIiHM4Vm0hs8NlmXykeLhqW9XiXmuhF60db3umIveXgZxDStZYtDERLe4kfSGjAnHhlNzeMhkQrXy8Mt/dHObWO1ykJZDwx/8U8X3ktlbcG33DhEqYd7i6QVoqjENK+23MScy90iS/Shkm3BIcwYxiKqVmKtlb5OPNk2MouDqSXx0n8RVwtCTmZWu7vVzCWn+k7LQiLYiIjqikHFFK08481EXHC1ERCprIWm9NVVvtdvZfbyXcghiRbvTOKS0i4xba4nOjEmW97i6RtVd7F7ZxcdcbcJvdkUopPpez0guZZS6yr+4RWXDbbjt2oqoSi2NS2Ui6shXjg5U1Asi2WneJV4sYiMYuRHhUT2MRGQi4MS1Fp3k251VFcr0ThFRMtanBYbEurpkPyrD0qWx5ZRk5UyEB1FuiqK5jZvhIdPZUZY1GPtB8qVmleLPSvUpOVTpRHJdKMuLJcEfeikt7Dj9Vzh0hFuQkJKi/TYpFF79WoCxm5mSFwpd1NudWXRKppypuj5SEW8wikemWpQX4SdrqalpSkLdI2Lhlw6nJfdXPnMZ1BbpOeVROYsqCGPSRLsptzY4ujONFS2kqdhyTjj4lvdmKLbTDRs1LmcLjrjGXEVzNzFlcYxEahRfSe7dWoTamri6fY7eI1zdVV1ESbckIDq8yZuhF0nCrHhEXNMQ3iFcq+kd4IpCL3mSfSC7dqPeTZkni6xXUzb9wcefeFtrhjqIlDcgbNxhkHm2WGh3uItRF95cn9dXRwcwR0jq3kN3K8VJRaEni6olJTsy+5XF1muboeZiyxURbJyThFvKN5y2lQuN01QIuFvGa5SNXeqt7JaEnHeoIyLypcjEA1BMlS1QukW4TBS8sU9P/IdLedtbVC7SsPSdfbiRF1Zai+JSW+us7D0pZzhFKRLnNVbMWMODn224NkXDzZz5VK9hzHDTbbz9lugtuDISKkc1e6mz/JVl/pblZWNTrgvOEUiluqIrraeeOVDpZzjhaZDpFUscGbQCoxrPUN4ynOIWC+FOzs82iVdLzgMP3Im+EoiJeUikXlT08fuTZc3r5ZyrudOlIoxHTpEV566+WdyoGocESjpbDh0qtUuy7aFUsk4NlqGxb4X32mC8IuOCRJ6HZbtArJtuW1unhuk/X0zYl3ek1LOzD6qb2uxDaXxaJxsnBb3RjpUFVii2uC3mNllty0COkl4KfY/jp0iFxu304jxO3NgpeUiSUex/GDtRlvuW+lEft3bi0Tf6uRe6p2IfUs2BYmtJU+WTJREpCMYrzVGLKF1ttsh6JspCA7qjp9jOJCrMt24Wltjif53mD5Yy91ehvYpeueCyV+s+QX2o55FHu5X3lUcGL6p3HnexnSk3lk30fVUD2NacmybJsY9VbQtiVdzzJ+k1tJoS1Fkv5nljH3lK5sRbCqH+lDJMdYqBwS+KPvLOziNxW3MaCTZCTbZN9WS8b2No6RZbj1ZK6VGxazi42Q4qeJrilRav94luWxvDYkJMYkqmx/taZv5lsjjxG5JoqyzYophEqm33BkS3SNhwZL0UuGMZVdKVUxabo4wO8Y0ji+lhw3tEIRbG20MZSKd4KX+7Un0S2iEWqns/iuThF/u16vE3n3YvmWhwvjC4PZNHabpUOdlghj3iLdWajBONmKgRdsN2Et0vqxF7wr6b+h20B0RH+ZxjxFWulH9WoqzAGPHRjzzDrYl1ifKKnbyp3I/V89ObMMdA2LhWOsIS3REmyLyiUlPQ7KccVjJOeq3qeP8AWXm2iLwkS+g7ds7xsxSt0/LecO8gttx/FHy/xF6/4ucZGOWWJrG2PYtLv/HTayG5F840uyvGj7wtlbXGxHjcqWhEfeXprNkmLGHBbAaOq7TVe0PxEK+jqfZpiKMncYUomPUtPzOkmLZfdiKRY6rB/NWxgfiEls2cqZZovnYtjeIua5nPrXmfkOe6vNGKe37Gbs+JFWXS20JDuhnE5LyivoT+Kau5f/1Evw9ykox/wUvJsfc5eXpdoWKi/NjRh/gJ6XKb0XAafYzcnKqNTdrWy0PGLzjheWKmqNjDgvDkX6heb6xtuiXliu/t7HreMs3F2MHpdavbH4WxU7ex7DQj0tyxM93r0+PwkKqOlyyN+Lgr2xajKnbIMQN5/EJUjkfiS0+yTD7bJN1mIHifjpyKKQ+8voL+J7BJe0ZvD35y+Vpf4qwzsewC3ykXqmpLv3KpL4nE9HP6nqIvnu37J7GNVGrulU4wW6LVMLZe9JT/AMVOGRqpeuK4aYS1DktCXmX0I3sm2fDvYZo3v+t4jcL3iUwbLdnYFL6E2L/50Taekl9U+o6Pneq2b4HziIbtXU7fCJPNdXup3sI7KWKMWX7gQvDvPndGhLy7q+kqXAWCaX8WwjY2+7QN/KtgzhrDbXs7Dax7tI38qqOj4+49Q+VmbdsZpWSbfuVDUOFuk/fhl4YkIqahptjtM8LglR1XZdubjoj4R+8vqobNaB3LZQ8n/wAGBU7dDRtezo2B7rYqvQMeq/i+TsjZONdzhi0svEPBKtdb8o6V6S/i7uFYTY4RkQ6uistcIl4RFfVwtjyfgEVmCx+X9D1D5ccqcN1VOLY7N7g8LYxERwi/p/Vr1s1n1MaWl2Y4iJoeAcLRH3hX0uPLqiXw6UFl9YfEr9BBj1MnzJQliylqnW7ZsrxA3RODqALdTMSLxEK9rJ7QGJer9lV/ZIvaGL9C1L9avozox4h8yM9kt1wU9FjPUSfPFK1tVN6TWzW5Ml13bpQj8Lkl6fU21t+oJ4sH0LZcJP3wZe6JLvbjrZDveIVDz6nHS65EviWfR41eol9HDPoztleISKy4ebj1r66XwtKQcGbYHClHCtOX/wDY1Ln+GK7h6xo/yiheu9C1GTg6u0Kj0uNPqJuJubPdrzpS9YYPbLtDUufeTt7L9qpF0uKcJN//AAtTxf4q7SN5oS3XhLukgrxSx3XC7rZF91bOmCDG/NyMdlGOnfxnHVrb/MWMfvOEoh2H4gKs5w7tMru6FqphEe6MV131u24IkFO8X9ySCuLnDRue6p2Ys72RzAdjV2jEtpV68Fuohl+rTDsVqPtNpGKilpKDVIPwtLpA3eqlHmJeYfmTFdar+rx8SqOGKdyf3Obt7DbaIjmY4xk5/wCLbH4W1OzsQw2wJG7dsVXCW9yO3t4C8OXFXsrnWEXs2xHtOJCudwlpyfMm1E3JfVTqbYjs3c6Tmd6ekOrNvtcX+KvQWxDZqQ8ksP1Bd+5VZf4isfPLlyVDfLyOM+nVLUSw5c7gJaqhvyqtuJaf1aNjYvsvb5Mv6J0J/nXXHC94lL/Evss3uXAVhIv9blKJ/EvdVVdwqRH64IxLhb/aUZP10RlWVHlH5U6U6J5fcumnrKLMbEokQxWpZHpss3Hi8SKpoRHTmb3WJeqUatbcZrPWFZzWS4hWhy/+ovMSJCBCMZeJa7Kq3ueyJRkKUqmnHVmCtTzRvMIstFQw2IjFsfKq8S9yW059Sjxe8l9ZUe7nNy7y1bYNj9mPlTFpqNOlVYbL1rQ7uc35l5yvdHmEAi/y+jiyHBHzRUZCo3o8Qq0vZ63p+EXC/uyWCvDMdLLnlWtJxKWpY5DZetuT+rOf+YpfW5SiNK4vC3JTxGMlrlZSf1q8RR5mX6QVENdcilGlER7Ti8RSzpN7w8K97JCQ5m9wrXGVloxuFwISIWWdJR9oXypSqroTco04udWRF91euctXCoqookqY8oc+6FpJ5kS6uSRfeUkrhxVTP6Av+IlFyRL0iMhktkY9JJ8yQDzrVm1Q+EY/eQ2LhF+MOD3RH5Usoy7xKPNbHVmJWo9ZN6RlVPF5flXmeEZaicLxJCq25NjmDqLrJXqlmI6h8KcQ7zAiJRJz9ISG6ZmIlGXiUTz5R6MXHO62RKShceKlaky8JEIyHLJa7RKyekqalEZc3FR5FLIY07fiFSFnR007i80qjnEXGYjHTIhTc5FZPcLTOXIWWx7oqKQizp091KRVBMkOkS7yg+sC2O6Xm+VTLNBVHpEy6xJS1aSULY1BF9mI90lNlPaSIt3qt/tJvRNvqjZ9m33VM3pSs0jkR6QtOndFS81e6z3mH5U3OhV5D3iWCEu0vY3RlxS8yk5i2W98Sm38Tw07m7Ei8KgkIbxR7y3pWylEpRGSVy2Up77bZd5uSnl9qldcqWxczM5uJdpRzFwi1KyFbKXSOWzp/sxTer2R3fdWn+79quKs0pCe6LnhEl7SAiHS2X6Mlt+YslvCRJuY0o/ZrZjv9qeLzU5dNq3UtQ63KI7y2Q0NP/VR8xJuSgofTLmbMu5Jerca2qnlxSk62RD0g9oZLdc1pf6vT/oxTDTMjutiI9kVNhqG6tnOjnN7vWTOPiRaSl3Vt4DKSIpachpBcIRLo3i7rckgi86ROFTvdno1YIoiq5Ks1cagmxHm7kutFITFRkxGnKXeEVudKNKqsmtX27fWCzHJ1dpxPzGul9mP95+yt3pWVNZKaPmNZnf6P+kL5VLzGqIYk82PhIltvCjSm3Iar1bUb3OG9PVZ/aUjNA62EOcEWoi3OsREtkhTs1LPDyUTn5Z73RSFbBIpE455lsViSrbLPGNvbHreJwk/M2/3l8ynkiSqOOpZ5ittGWoqdsi7qkbpKUN2nb8qkkoxNVt9BKLbY7giPdTF3l46iuZY9oUfCst1YujJopd1NvoPSQCQ7svEkyGeIUs3i+zL3UE+8Iyy5dmQqdmJaRhpqX8mKYWGR3WxXkK4RKJtuN+FKNxp5RzBHvaU2YFnuy2+qKIj1VAL4lulLups0lW3AtJOMR4USUGZ2kE52lVYpSyQSgJztIzO0lRKsERKPMJElNQxEgiSJfSsh5ISelLJZEsorElC5KSWRCp5D3HylycvoknQhPmUFkfwoQspMlLdQhWMhy+nk9KEIQY9COT+RCEGUskIQY5f5FlCEAhCEDIQhBguRLFCEEZcijc0/h/lQhBGTY+j0qJxlvqoQpkI+RoeTiP/AM1nL1TmfLyf6i5fShCETQD0eiAf+SOQG+UZZY+lCFUenQkkimyhQhBjLCX4E+WKEIG9HL/rREeqhCBPQj0IQpGRUZ8voQhBjl5fSsIQgC/AlJCEH//Z" alt="مسجدِ نبوی شریف">
+      </div>
+      <h1 class="book-title">میری پسندیدہ<br>نعتیں</h1>
+      <p class="book-sub">عشقِ رسول ﷺ کا خوبصورت نذرانہ</p>
+      <div class="divider"><span class="line"></span>❖<span class="line"></span></div>
+      <button class="enter-btn" id="enterBtn">کتاب کھولیں</button>
+    </div>
+  </section>
+
+  <!-- Screen 2: Category selection -->
+  <section class="screen" id="screen-category">
+    <p class="section-lead">کس زمرے کی نعتیں دیکھنا چاہیں گے؟</p>
+    <div class="category-grid" id="categoryGrid">
+      <div class="category-box" data-cat="urdu">
+        <span class="cat-icon">۞</span>
+        <span class="cat-name">اردو نعتیں</span>
+        <span class="cat-count" id="countUrdu"></span>
+      </div>
+      <div class="category-box" data-cat="punjabi">
+        <span class="cat-icon">❖</span>
+        <span class="cat-name">پنجابی نعتیں</span>
+        <span class="cat-count" id="countPunjabi"></span>
+      </div>
+      <div class="category-box" data-cat="manqabat">
+        <span class="cat-icon">✦</span>
+        <span class="cat-name">منقبتیں</span>
+        <span class="cat-count" id="countManqabat"></span>
+      </div>
+      <div class="category-box" data-cat="sufi">
+        <span class="cat-icon">۩</span>
+        <span class="cat-name">صوفی کلام</span>
+        <span class="cat-count" id="countSufi"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 3: Alphabet -->
+  <section class="screen" id="screen-alphabet">
+    <p class="section-lead">کوئی حرف منتخب کریں تاکہ اس سے شروع ہونے والی نعتیں دیکھیں</p>
+    <div class="alpha-grid" id="alphaGrid"></div>
+  </section>
+
+  <!-- Screen 3: Naat list for a letter -->
+  <section class="screen" id="screen-list">
+    <div class="list-letter-badge" id="listLetterBadge"></div>
+    <div id="listContainer"></div>
+  </section>
+
+  <!-- Screen 4: Full naat -->
+  <section class="screen" id="screen-naat">
+    <div class="naat-header">
+      <div class="ornament">۞ ۞ ۞</div>
+    </div>
+
+    <div class="naat-card-text">
+      <span class="corner c-tl"></span><span class="corner c-tr"></span>
+      <span class="corner c-bl"></span><span class="corner c-br"></span>
+      <div class="naat-body" id="naatBody"></div>
+    </div>
+
+    <p class="naat-note" id="naatNote"></p>
+
+    <div class="audio-bar" id="audioBar">
+      <button id="audioBtn" aria-label="نعت سنیں">▶</button>
+      <div class="audio-label">اس نعت کو سننے کے لیے آڈیو یہاں شامل کی جا سکتی ہے<br>(صرف اجازت یافتہ ریکارڈنگ کے ساتھ)</div>
+    </div>
+
+    <div class="detail-actions">
+      <button class="bottom-nav-btn" id="editNaatBtn" style="border-color:var(--gold);">✎ ترمیم کریں</button>
+      <button class="bottom-nav-btn" id="deleteNaatBtn" style="color:#A23B2E; border-color:#F0D9D4;">🗑 حذف کریں</button>
+    </div>
+
+    <button class="bottom-nav-btn" id="backToListBtn">فہرست کی طرف واپس</button>
+  </section>
+
+</div>
+
+<!-- Add / edit naat modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-sheet">
+    <h3 id="modalHeading">نئی نعت شامل کریں</h3>
+    <label for="modalTitleInput">نعت کا عنوان</label>
+    <input type="text" id="modalTitleInput" placeholder="مثلاً: قطرہ مانگے جو کوئی">
+    <label for="modalBodyInput">نعت کا متن</label>
+    <textarea id="modalBodyInput" placeholder="ہر مصرعہ نئی سطر میں لکھیں"></textarea>
+    <button type="button" class="kb-toggle-btn" id="kbToggleBtn">⌨ اردو کی بورڈ دکھائیں</button>
+    <button type="button" class="kb-toggle-btn mic-btn" id="micBtn">🎤 بول کر لکھیں</button>
+    <div class="urdu-keyboard" id="urduKeyboard"></div>
+    <p class="modal-hint">صرف اپنی تصنیف کردہ یا استعمال کی اجازت رکھنے والی نعت ہی شامل کریں۔</p>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modalCancelBtn">منسوخ</button>
+      <button class="modal-save" id="modalSaveBtn">محفوظ کریں</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---------------- Data ----------------
+  // Urdu alphabet (standard order)
+  const alphabet = ["ا","ب","پ","ت","ٹ","ث","ج","چ","ح","خ",
+                     "د","ڈ","ذ","ر","ڑ","ز","ژ","س","ش","ص",
+                     "ض","ط","ظ","ع","غ","ف","ق","ک","گ","ل",
+                     "م","ن","ں","و","ہ","ھ","ء","ی","ے"];
+
+  // Sample devotional content — original, simple, non-attributed sample verses.
+  // Replace / extend this object with your own permitted naat text.
+  const naats = {
+    "ا": [
+      {
+        title: "اے محبوبِ خدا",
+        category: "urdu",
+        lines: [
+          "اے محبوبِ خدا، سب سے پیارے نبی",
+          "آپ کے نام سے روشن ہے دل کی گلی",
+          "درد میں، خوشی میں، ہر اک لمحے میں",
+          "آپ کا ذکر ہی ہے سب سے بڑی زندگی"
+        ]
+      }
+    ],
+    "م": [
+      {
+        title: "میرے آقا مدینے والے",
+        category: "urdu",
+        lines: [
+          "میرے آقا مدینے والے، سلام آپ پر ہو",
+          "دل کے ہر گوشے میں بسا پیار آپ کا ہو",
+          "جس طرف دیکھوں وہیں نور دکھائی دے",
+          "یہ کرم ہے، یہ عطا ہے، درِ اقدس کا ہو"
+        ]
+      },
+      {
+        title: "مدینے جا کے نہیں دسنا پیندا سوال کی اے",
+        category: "punjabi",
+        lines: []
+      }
+    ],
+    "ی": [
+      {
+        title: "یا نبی سلام علیک",
+        category: "urdu",
+        lines: [
+          "یا نبی سلام علیک، یا رسول سلام علیک",
+          "دل کی دنیا ہے روشن، آپ کے نام علیک",
+          "چھوٹے بچے بھی پڑھیں یہ پیارا کلام",
+          "صبح و شام ہو زبان پر، یہ سلام علیک"
+        ]
+      }
+    ],
+    "ق": [
+      {
+        title: "قطرہ مانگے جو کوئی",
+        category: "urdu",
+        lines: []
+      }
+    ],
+    "ہ": [
+      { title: "ہم شبیہِ مصطفیٰ مولا حسن", category: "manqabat", lines: [] },
+      { title: "ہے سر پہ چھایا ابرے غم، اغثنی یا رسول اللہ", category: "urdu", lines: [] },
+      { title: "ہے دل تمنائے ریاضِ جنہ دے وچ، مولا سانوں سجدے کرا دے", category: "punjabi", lines: [] },
+      { title: "ہے بصبری بڑی دل نوں، دعا منگیو صابر آوے", category: "punjabi", lines: [] }
+    ],
+    "پ": [
+      { title: "پوہنچاں مدینے کھیتی کتھے سہ نکل نہ جاوے", category: "punjabi", lines: [] }
+    ],
+    "د": [
+      { title: "درد سہہ کر بھی تیرا نام لیتے ہیں", category: "urdu", lines: [] },
+      { title: "دیارِ حبیب خدا جانے والے", category: "urdu", lines: [] }
+    ],
+    "ف": [
+      { title: "فجاء محمد سراجا منیرا", category: "sufi", lines: [] }
+    ],
+    "ب": [
+      { title: "بیڑے تر جاندے جدوں نظر کرم ہووے", category: "punjabi", lines: [] },
+      {
+        title: "بوئے گل مصطفیٰ",
+        category: "sufi",
+        lines: [
+          "بوئے گل مصطفیٰ در دل نشیند",
+          "نور او بر جان ما بارد و بخشد",
+          "ہر کہ او را با محبت یاد آرد",
+          "غم او را ز دل بیرون کند"
+        ],
+        note: "فارسی نعت"
+      }
+    ],
+    "خ": [
+      {
+        title: "خوشبوئے مدینہ",
+        category: "urdu",
+        lines: [
+          "خوشبوئے مدینہ ہر سو مہکے",
+          "دل کے صحرا میں امید دہکے",
+          "جب نام محمدﷺ زباں پہ آئے",
+          "ہر غم مٹے، ہر درد تھمے"
+        ]
+      }
+    ],
+    "ت": [
+      {
+        title: "تیرے در دی گل نرالی اے",
+        category: "punjabi",
+        lines: [
+          "تیرے در دی گل نرالی اے",
+          "ہر دل نوں لگدی پیاری اے",
+          "جیہڑا آوے تیری گلی وچ",
+          "اوہدی قسمت سوہنی ساری اے"
+        ],
+        note: "پنجابی نعت"
+      }
+    ]
+  };
+
+  // ---------------- Elements ----------------
+  const screens = {
+    title: document.getElementById('screen-title'),
+    category: document.getElementById('screen-category'),
+    alphabet: document.getElementById('screen-alphabet'),
+    list: document.getElementById('screen-list'),
+    naat: document.getElementById('screen-naat'),
+  };
+  const appbar = document.getElementById('appbar');
+  const appbarTitle = document.getElementById('appbarTitle');
+  const backBtn = document.getElementById('backBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  const categoryGrid = document.getElementById('categoryGrid');
+  const alphaGrid = document.getElementById('alphaGrid');
+  const listLetterBadge = document.getElementById('listLetterBadge');
+  const listContainer = document.getElementById('listContainer');
+  const naatBodyEl = document.getElementById('naatBody');
+  const naatNoteEl = document.getElementById('naatNote');
+  const audioBtn = document.getElementById('audioBtn');
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalHeading = document.getElementById('modalHeading');
+  const modalTitleInput = document.getElementById('modalTitleInput');
+  const modalBodyInput = document.getElementById('modalBodyInput');
+
+  const categoryNames = {
+    urdu: 'اردو نعتیں',
+    punjabi: 'پنجابی نعتیں',
+    manqabat: 'منقبتیں',
+    sufi: 'صوفی کلام'
+  };
+
+  let currentCategory = null;
+  let currentLetter = null;
+  let currentNaatIndex = null;
+  let history = ['title'];
+  let modalMode = null; // 'add' | 'edit'
+
+  function countByCategory(cat){
+    let n = 0;
+    Object.keys(naats).forEach(letter=>{
+      naats[letter].forEach(item=>{ if(item.category === cat) n++; });
+    });
+    return n;
+  }
+
+  function updateCategoryCounts(){
+    document.getElementById('countUrdu').textContent = countByCategory('urdu') + ' نعتیں';
+    document.getElementById('countPunjabi').textContent = countByCategory('punjabi') + ' نعتیں';
+    document.getElementById('countManqabat').textContent = countByCategory('manqabat') + ' منقبتیں';
+    document.getElementById('countSufi').textContent = countByCategory('sufi') + ' کلام';
+  }
+  updateCategoryCounts();
+
+  categoryGrid.querySelectorAll('.category-box').forEach(box=>{
+    box.addEventListener('click', ()=>{
+      currentCategory = box.getAttribute('data-cat');
+      renderAlphaGrid();
+      goTo('alphabet');
+    });
+  });
+
+  // ---------------- Build alphabet grid (re-run whenever data or category changes) ----------------
+  function renderAlphaGrid(){
+    alphaGrid.innerHTML = '';
+    alphabet.forEach(letter=>{
+      const items = (naats[letter] || []).filter(n=> n.category === currentCategory);
+      const hasNaats = items.length > 0;
+      const btn = document.createElement('button');
+      btn.className = 'alpha-btn' + (hasNaats ? ' has-naats' : '');
+      btn.textContent = letter;
+      btn.setAttribute('aria-label', 'حرف ' + letter);
+      btn.addEventListener('click', ()=> openLetter(letter));
+      alphaGrid.appendChild(btn);
+    });
+  }
+  renderAlphaGrid();
+
+  // ---------------- Navigation helpers ----------------
+  function showScreen(name, opts){
+    opts = opts || {};
+    Object.values(screens).forEach(s=>s.classList.remove('active'));
+    screens[name].classList.add('active');
+
+    if(name === 'title'){
+      appbar.classList.remove('has-back');
+      appbar.classList.remove('has-home');
+      appbarTitle.textContent = 'میری پسندیدہ نعتیں';
+    } else if(name === 'category'){
+      appbar.classList.add('has-back');
+      appbar.classList.remove('has-home');
+      appbarTitle.textContent = 'زمرہ منتخب کریں';
+    } else if(name === 'alphabet'){
+      appbar.classList.add('has-back');
+      appbar.classList.add('has-home');
+      appbarTitle.textContent = 'حروفِ تہجی — ' + (categoryNames[currentCategory] || '');
+    } else if(name === 'list'){
+      appbar.classList.add('has-back');
+      appbar.classList.add('has-home');
+      appbarTitle.textContent = 'نعتیں — حرف ' + currentLetter;
+    } else if(name === 'naat'){
+      appbar.classList.add('has-back');
+      appbar.classList.add('has-home');
+      appbarTitle.textContent = opts.title || 'نعت';
+    }
+  }
+
+  function goTo(name, opts){
+    history.push(name);
+    showScreen(name, opts);
+  }
+
+  function goBack(){
+    if(history.length > 1){
+      history.pop();
+      const prev = history[history.length-1];
+      if(prev === 'list'){
+        showScreen('list');
+      } else {
+        showScreen(prev);
+      }
+    }
+  }
+
+  function goHome(){
+    history = ['title','category','alphabet'];
+    showScreen('alphabet');
+  }
+
+  document.getElementById('enterBtn').addEventListener('click', ()=> goTo('category'));
+  backBtn.addEventListener('click', goBack);
+  homeBtn.addEventListener('click', goHome);
+  document.getElementById('backToListBtn').addEventListener('click', ()=>{
+    showScreen('list');
+    if(history[history.length-1] !== 'list'){ history.push('list'); }
+  });
+
+  // ---------------- Letter -> list of naats (filtered by current category) ----------------
+  function openLetter(letter){
+    currentLetter = letter;
+    listLetterBadge.textContent = letter;
+    listContainer.innerHTML = '';
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'add-naat-btn';
+    addBtn.innerHTML = '<span>+</span><span>اس حرف میں نئی نعت شامل کریں</span>';
+    addBtn.addEventListener('click', ()=> openModal('add', letter));
+    listContainer.appendChild(addBtn);
+
+    const all = naats[letter] || [];
+    const indices = [];
+    all.forEach((n, i)=>{ if(n.category === currentCategory) indices.push(i); });
+
+    if(indices.length){
+      indices.forEach((i, pos)=>{
+        const naat = all[i];
+        const card = document.createElement('div');
+        card.className = 'naat-card';
+        card.innerHTML =
+          '<span class="idx">' + (pos+1) + '</span>' +
+          '<span class="naat-title">' + naat.title + '</span>' +
+          '<span class="card-actions">' +
+            '<button class="icon-btn" data-act="edit" aria-label="ترمیم">✎</button>' +
+            '<button class="icon-btn danger" data-act="del" aria-label="حذف">🗑</button>' +
+          '</span>';
+        card.querySelector('.naat-title').addEventListener('click', ()=> openNaat(letter, i));
+        card.querySelector('[data-act="edit"]').addEventListener('click', (e)=>{
+          e.stopPropagation();
+          openModal('edit', letter, i);
+        });
+        card.querySelector('[data-act="del"]').addEventListener('click', (e)=>{
+          e.stopPropagation();
+          deleteNaat(letter, i);
+        });
+        listContainer.appendChild(card);
+      });
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML =
+        '<div class="icon">۞</div>' +
+        '<p>اس حرف سے شروع ہونے والی، اس زمرے (' + (categoryNames[currentCategory]||'') + ') کی کوئی نعت ابھی شامل نہیں کی گئی۔<br>اوپر دیے گئے بٹن سے اپنی پسندیدہ اور اجازت یافتہ نعت شامل کریں۔</p>';
+      listContainer.appendChild(empty);
+    }
+    goTo('list');
+  }
+
+  // ---------------- Add / Edit modal ----------------
+  function openModal(mode, letter, index){
+    modalMode = mode;
+    currentLetter = letter;
+    currentNaatIndex = (typeof index === 'number') ? index : null;
+
+    if(mode === 'add'){
+      modalHeading.textContent = 'نئی نعت شامل کریں — حرف ' + letter;
+      modalTitleInput.value = '';
+      modalBodyInput.value = '';
+    } else {
+      const naat = naats[letter][index];
+      modalHeading.textContent = 'نعت میں ترمیم کریں';
+      modalTitleInput.value = naat.title;
+      modalBodyInput.value = naat.lines.join('\n');
+    }
+    modalOverlay.classList.add('active');
+    setTimeout(()=> modalTitleInput.focus(), 50);
+  }
+
+  function closeModal(){
+    modalOverlay.classList.remove('active');
+    modalMode = null;
+    if(recognition && isListening){
+      isListening = false;
+      micBtn.classList.remove('listening');
+      micBtn.textContent = '🎤 بول کر لکھیں';
+      try{ recognition.stop(); } catch(err){}
+    }
+  }
+
+  document.getElementById('modalCancelBtn').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e)=>{ if(e.target === modalOverlay) closeModal(); });
+
+  document.getElementById('modalSaveBtn').addEventListener('click', ()=>{
+    const title = modalTitleInput.value.trim();
+    if(!title){ modalTitleInput.focus(); return; }
+    const lines = modalBodyInput.value.split('\n').map(l=>l.trim()).filter(Boolean);
+
+    if(!naats[currentLetter]) naats[currentLetter] = [];
+
+    if(modalMode === 'add'){
+      naats[currentLetter].push({title, lines, category: currentCategory});
+    } else if(modalMode === 'edit' && currentNaatIndex !== null){
+      const existing = naats[currentLetter][currentNaatIndex];
+      naats[currentLetter][currentNaatIndex] = {
+        title, lines,
+        category: existing.category,
+        note: existing.note
+      };
+    }
+    closeModal();
+    renderAlphaGrid();
+    updateCategoryCounts();
+    openLetter(currentLetter);
+  });
+
+  function deleteNaat(letter, index){
+    const ok = confirm('کیا آپ واقعی یہ نعت حذف کرنا چاہتے ہیں؟');
+    if(!ok) return;
+    naats[letter].splice(index, 1);
+    renderAlphaGrid();
+    updateCategoryCounts();
+    openLetter(letter);
+  }
+
+  // ---------------- Full naat page ----------------
+  let isPlaying = false;
+  function openNaat(letter, index){
+    currentLetter = letter;
+    currentNaatIndex = index;
+    const naat = naats[letter][index];
+
+    if(naat.lines && naat.lines.length){
+      const displayLines = (naat.lines[0] && naat.lines[0].trim() === naat.title.trim())
+        ? naat.lines.slice(1)
+        : naat.lines;
+      naatBodyEl.innerHTML = displayLines.map(l=>'<p>' + l + '</p>').join('');
+      naatNoteEl.textContent = naat.note ? naat.note : 'یہ ایک نمونہ کلام ہے۔ براہِ مہربانی اپنی پسندیدہ اور اجازت یافتہ نعتیں شامل کریں۔';
+    } else {
+      naatBodyEl.innerHTML = '<p style="color:var(--ink-soft); font-size:17px;">ابھی اس نعت کا متن شامل نہیں کیا گیا۔ نیچے "ترمیم کریں" سے اپنی اجازت یافتہ نعت کا متن شامل کریں۔</p>';
+      naatNoteEl.textContent = '';
+    }
+
+    isPlaying = false;
+    audioBtn.textContent = '▶';
+
+    goTo('naat', {title: naat.title});
+  }
+
+  audioBtn.addEventListener('click', ()=>{
+    // Placeholder control — connect to a permitted audio file's <audio> element here.
+    isPlaying = !isPlaying;
+    audioBtn.textContent = isPlaying ? '❚❚' : '▶';
+  });
+
+  document.getElementById('editNaatBtn').addEventListener('click', ()=>{
+    if(currentLetter !== null && currentNaatIndex !== null){
+      openModal('edit', currentLetter, currentNaatIndex);
+    }
+  });
+  document.getElementById('deleteNaatBtn').addEventListener('click', ()=>{
+    if(currentLetter !== null && currentNaatIndex !== null){
+      const letter = currentLetter, index = currentNaatIndex;
+      const ok = confirm('کیا آپ واقعی یہ نعت حذف کرنا چاہتے ہیں؟');
+      if(!ok) return;
+      naats[letter].splice(index, 1);
+      renderAlphaGrid();
+      updateCategoryCounts();
+      openLetter(letter);
+    }
+  });
+
+  // ---------------- On-screen Urdu keyboard ----------------
+  const kbToggleBtn = document.getElementById('kbToggleBtn');
+  const urduKeyboard = document.getElementById('urduKeyboard');
+  let activeField = modalTitleInput;
+
+  modalTitleInput.addEventListener('focus', ()=> activeField = modalTitleInput);
+  modalBodyInput.addEventListener('focus', ()=> activeField = modalBodyInput);
+
+  const kbRows = [
+    ["ا","ب","پ","ت","ٹ","ث","ج","چ","ح","خ"],
+    ["د","ڈ","ذ","ر","ڑ","ز","ژ","س","ش","ص"],
+    ["ض","ط","ظ","ع","غ","ف","ق","ک","گ","ل"],
+    ["م","ن","ں","و","ہ","ھ","ء","ی","ے"],
+    ["آ","أ","ئ","ٔ","ؤ","۔","،","؟","!"]
+  ];
+
+  // Urdu/Arabic diacritics (اعراب) — shown attached to a tatweel for visibility,
+  // but only the mark itself is inserted at the cursor.
+  const kbDiacritics = [
+    {display:"ـَ", insert:"\u064E", label:"زبر"},
+    {display:"ـٰ", insert:"\u0670", label:"کھڑی زبر"},
+    {display:"ـِ", insert:"\u0650", label:"زیر"},
+    {display:"ـُ", insert:"\u064F", label:"پیش"},
+    {display:"ـّ", insert:"\u0651", label:"تشدید"},
+    {display:"ـّـَ", insert:"\u0651\u064E", label:"تشدید + زبر"},
+    {display:"ـّـٰ", insert:"\u0651\u0670", label:"تشدید + کھڑی زبر"},
+    {display:"ـّـِ", insert:"\u0651\u0650", label:"تشدید + زیر"},
+    {display:"ـّـُ", insert:"\u0651\u064F", label:"تشدید + پیش"},
+    {display:"ـْ", insert:"\u0652", label:"سکون"},
+    {display:"ـً", insert:"\u064B", label:"تنوین"}
+  ];
+
+  function insertAtCursor(el, text){
+    const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+    const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+    el.value = el.value.slice(0, start) + text + el.value.slice(end);
+    const pos = start + text.length;
+    el.focus();
+    el.setSelectionRange(pos, pos);
+  }
+
+  function backspaceAtCursor(el){
+    const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+    const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+    if(start === end && start > 0){
+      el.value = el.value.slice(0, start - 1) + el.value.slice(end);
+      el.focus();
+      el.setSelectionRange(start - 1, start - 1);
+    } else {
+      el.value = el.value.slice(0, start) + el.value.slice(end);
+      el.focus();
+      el.setSelectionRange(start, start);
+    }
+  }
+
+  function buildKeyboard(){
+    urduKeyboard.innerHTML = '';
+    kbRows.forEach(row=>{
+      const rowEl = document.createElement('div');
+      rowEl.className = 'kb-row';
+      row.forEach(ch=>{
+        const key = document.createElement('button');
+        key.type = 'button';
+        key.className = 'kb-key';
+        key.textContent = ch;
+        key.addEventListener('click', ()=> insertAtCursor(activeField, ch));
+        rowEl.appendChild(key);
+      });
+      urduKeyboard.appendChild(rowEl);
+    });
+
+    const diaToggleRow = document.createElement('div');
+    diaToggleRow.className = 'kb-row';
+    const diaToggleKey = document.createElement('button');
+    diaToggleKey.type = 'button';
+    diaToggleKey.className = 'kb-key wide control';
+    diaToggleKey.textContent = 'اعراب دکھائیں';
+    diaToggleRow.appendChild(diaToggleKey);
+    urduKeyboard.appendChild(diaToggleRow);
+
+    const diaContainer = document.createElement('div');
+    diaContainer.className = 'dia-container';
+
+    const diaLabel = document.createElement('div');
+    diaLabel.style.cssText = 'text-align:center; font-family:"Noto Naskh Arabic",serif; font-size:12px; color:var(--ink-soft); margin:2px 0 4px;';
+    diaLabel.textContent = 'اعراب — زبر، زیر، پیش وغیرہ';
+    diaContainer.appendChild(diaLabel);
+
+    const diaRow = document.createElement('div');
+    diaRow.className = 'kb-row';
+    kbDiacritics.forEach(d=>{
+      const key = document.createElement('button');
+      key.type = 'button';
+      key.className = 'kb-key';
+      key.textContent = d.display;
+      key.setAttribute('aria-label', d.label);
+      key.addEventListener('click', ()=> insertAtCursor(activeField, d.insert));
+      diaRow.appendChild(key);
+    });
+    diaContainer.appendChild(diaRow);
+    urduKeyboard.appendChild(diaContainer);
+
+    diaToggleKey.addEventListener('click', ()=>{
+      const isActive = diaContainer.classList.toggle('active');
+      diaToggleKey.textContent = isActive ? 'اعراب چھپائیں' : 'اعراب دکھائیں';
+    });
+
+    const controlRow = document.createElement('div');
+    controlRow.className = 'kb-row';
+
+    const spaceKey = document.createElement('button');
+    spaceKey.type = 'button';
+    spaceKey.className = 'kb-key wide control';
+    spaceKey.textContent = 'اسپیس';
+    spaceKey.addEventListener('click', ()=> insertAtCursor(activeField, ' '));
+
+    const enterKey = document.createElement('button');
+    enterKey.type = 'button';
+    enterKey.className = 'kb-key wide control';
+    enterKey.textContent = 'نئی سطر';
+    enterKey.addEventListener('click', ()=>{
+      if(activeField === modalBodyInput){ insertAtCursor(activeField, '\n'); }
+    });
+
+    const backKey = document.createElement('button');
+    backKey.type = 'button';
+    backKey.className = 'kb-key wide control';
+    backKey.textContent = '⌫ مٹائیں';
+    backKey.addEventListener('click', ()=> backspaceAtCursor(activeField));
+
+    controlRow.appendChild(backKey);
+    controlRow.appendChild(enterKey);
+    controlRow.appendChild(spaceKey);
+    urduKeyboard.appendChild(controlRow);
+  }
+  buildKeyboard();
+
+  kbToggleBtn.addEventListener('click', ()=>{
+    const isActive = urduKeyboard.classList.toggle('active');
+    kbToggleBtn.textContent = isActive ? '⌨ کی بورڈ چھپائیں' : '⌨ اردو کی بورڈ دکھائیں';
+    if(isActive) activeField.focus();
+  });
+
+  // ---------------- Voice-to-text (بول کر لکھیں) ----------------
+  const micBtn = document.getElementById('micBtn');
+  const SpeechRecognitionImpl = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  let isListening = false;
+
+  if(SpeechRecognitionImpl){
+    recognition = new SpeechRecognitionImpl();
+    recognition.lang = 'ur-PK';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.onresult = (e)=>{
+      for(let i = e.resultIndex; i < e.results.length; i++){
+        if(e.results[i].isFinal){
+          const text = e.results[i][0].transcript.trim();
+          if(text){
+            const needsSpace = activeField.value.length > 0 &&
+              !/[\s\n]$/.test(activeField.value);
+            insertAtCursor(activeField, (needsSpace ? ' ' : '') + text);
+          }
+        }
+      }
+    };
+    recognition.onerror = (e)=>{
+      stopListening();
+      let msg = 'آواز سے لکھنے میں مسئلہ پیش آیا۔';
+      if(e.error === 'not-allowed' || e.error === 'service-not-allowed'){
+        msg = 'مائیکروفون کی اجازت نہیں ملی۔ براہِ کرم براؤزر کی سیٹنگز میں مائیکروفون کی اجازت دیں۔\n\nنوٹ: اگر آپ نے یہ فائل سیدھا کھولی ہے (file:// کے ذریعے)، تو کئی براؤزرز مقامی فائلوں کو مائیکروفون کی اجازت نہیں دیتے۔ اس صورت میں فائل کو کسی ویب سائٹ (جیسے GitHub Pages یا Netlify) پر ہوسٹ کر کے وہاں سے کھولیں۔';
+      } else if(e.error === 'audio-capture'){
+        msg = 'مائیکروفون نہیں ملا۔ چیک کریں کہ آپ کے آلے میں مائیکروفون کام کر رہا ہے۔';
+      } else if(e.error === 'no-speech'){
+        msg = ''; // don't alert for simple silence timeouts
+      } else if(e.error === 'network'){
+        msg = 'آواز پہچاننے کے لیے انٹرنیٹ کنکشن درکار ہے۔ براہِ کرم انٹرنیٹ سے جُڑیں۔';
+      }
+      if(msg) alert(msg);
+    };
+    recognition.onend = ()=>{ stopListening(); };
+
+    function startListening(){
+      try{
+        recognition.start();
+        isListening = true;
+        micBtn.classList.add('listening');
+        micBtn.textContent = '🎙 سن رہا ہے... (رُکنے کے لیے دبائیں)';
+      } catch(err){
+        alert('مائیکروفون شروع نہیں ہو سکا۔ دوبارہ کوشش کریں۔');
+      }
+    }
+    function stopListening(){
+      isListening = false;
+      micBtn.classList.remove('listening');
+      micBtn.textContent = '🎤 بول کر لکھیں';
+      try{ recognition.stop(); } catch(err){}
+    }
+
+    micBtn.addEventListener('click', ()=>{
+      if(isListening){ stopListening(); } else { startListening(); }
+    });
+  } else {
+    micBtn.textContent = '🎤 یہ سہولت اس براؤزر میں دستیاب نہیں';
+    micBtn.disabled = true;
+    micBtn.style.opacity = '0.5';
+  }
+
+  // ---------------- Swipe back gesture (mobile feel) ----------------
+  let touchStartX = 0;
+  document.getElementById('app').addEventListener('touchstart', e=>{
+    touchStartX = e.touches[0].clientX;
+  }, {passive:true});
+  document.getElementById('app').addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if(dx < -70 && history.length > 1){ // RTL: swipe left-to-right-ish feel handled generically
+      goBack();
+    }
+  }, {passive:true});
+
+  // ---------------- PWA: service worker registration ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{ /* offline support unavailable */ });
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
