@@ -173,6 +173,12 @@
     margin:0 0 26px;
     font-family:'Noto Naskh Arabic',serif;
   }
+  .book-author{
+    font-size:18px;
+    color:var(--gold);
+    margin:-14px 0 20px;
+    font-family:'Noto Nastaliq Urdu',serif;
+  }
   .divider{
     display:flex;
     align-items:center;
@@ -246,12 +252,19 @@
     color:var(--ink-soft);
   }
   .alpha-grid{
-    display:grid;
-    grid-template-columns:repeat(5, 1fr);
+    display:flex;
+    flex-direction:row;
     gap:10px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:2px 2px 12px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
   }
   .alpha-btn{
-    aspect-ratio:1/1;
+    flex:0 0 auto;
+    width:54px;
+    height:54px;
     border-radius:16px;
     border:1px solid var(--gold);
     background:var(--green-soft);
@@ -275,6 +288,10 @@
     background:var(--gold-bright);
   }
   .alpha-btn:active{transform:scale(0.92);}
+  .alpha-btn.selected{
+    outline:3px solid var(--gold-bright);
+    outline-offset:1px;
+  }
   /* ---------- List screen ---------- */
   #screen-list{padding:18px 16px calc(24px + var(--safe-bottom));}
   .list-letter-badge{
@@ -606,7 +623,7 @@
 
   <div class="appbar" id="appbar">
     <button class="back-btn" id="backBtn" aria-label="پیچھے جائیں">◄</button>
-    <h1 id="appbarTitle">میری پسندیدہ نعتیں</h1>
+    <h1 id="appbarTitle">میری پسندیدہ نعتیں - حق نواز</h1>
     <button class="home-btn" id="homeBtn" aria-label="حروفِ تہجی">⌂</button>
   </div>
 
@@ -650,16 +667,14 @@
     </div>
   </section>
 
-  <!-- Screen 3: Alphabet -->
+  <!-- Screen 3: Alphabet + inline naat list for the selected letter -->
   <section class="screen" id="screen-alphabet">
-    <p class="section-lead">کوئی حرف منتخب کریں تاکہ اس سے شروع ہونے والی نعتیں دیکھیں</p>
+    <p class="section-lead">کوئی حرف منتخب کریں تاکہ اس سے شروع ہونے والی نعتیں نیچے دکھائی دیں</p>
     <div class="alpha-grid" id="alphaGrid"></div>
-  </section>
-
-  <!-- Screen 3: Naat list for a letter -->
-  <section class="screen" id="screen-list">
-    <div class="list-letter-badge" id="listLetterBadge"></div>
-    <div id="listContainer"></div>
+    <div id="inlinePanel">
+      <div class="list-letter-badge" id="listLetterBadge"></div>
+      <div id="listContainer"></div>
+    </div>
   </section>
 
   <!-- Screen 4: Full naat -->
@@ -686,7 +701,7 @@
       <button class="bottom-nav-btn" id="deleteNaatBtn" style="color:#A23B2E; border-color:#F0D9D4;">🗑 حذف کریں</button>
     </div>
 
-    <button class="bottom-nav-btn" id="backToListBtn">فہرست کی طرف واپس</button>
+    <button class="bottom-nav-btn" id="backToListBtn">حروفِ تہجی کی طرف واپس</button>
   </section>
 
 </div>
@@ -832,7 +847,6 @@
     title: document.getElementById('screen-title'),
     category: document.getElementById('screen-category'),
     alphabet: document.getElementById('screen-alphabet'),
-    list: document.getElementById('screen-list'),
     naat: document.getElementById('screen-naat'),
   };
   const appbar = document.getElementById('appbar');
@@ -883,6 +897,9 @@
   categoryGrid.querySelectorAll('.category-box').forEach(box=>{
     box.addEventListener('click', ()=>{
       currentCategory = box.getAttribute('data-cat');
+      currentLetter = null;
+      listLetterBadge.textContent = '';
+      listContainer.innerHTML = '';
       renderAlphaGrid();
       goTo('alphabet');
     });
@@ -898,6 +915,7 @@
       btn.className = 'alpha-btn' + (hasNaats ? ' has-naats' : '');
       btn.textContent = letter;
       btn.setAttribute('aria-label', 'حرف ' + letter);
+      if(letter === currentLetter) btn.classList.add('selected');
       btn.addEventListener('click', ()=> openLetter(letter));
       alphaGrid.appendChild(btn);
     });
@@ -913,7 +931,7 @@
     if(name === 'title'){
       appbar.classList.remove('has-back');
       appbar.classList.remove('has-home');
-      appbarTitle.textContent = 'میری پسندیدہ نعتیں';
+      appbarTitle.textContent = 'میری پسندیدہ نعتیں - حق نواز';
     } else if(name === 'category'){
       appbar.classList.add('has-back');
       appbar.classList.remove('has-home');
@@ -921,11 +939,9 @@
     } else if(name === 'alphabet'){
       appbar.classList.add('has-back');
       appbar.classList.add('has-home');
-      appbarTitle.textContent = 'حروفِ تہجی — ' + (categoryNames[currentCategory] || '');
-    } else if(name === 'list'){
-      appbar.classList.add('has-back');
-      appbar.classList.add('has-home');
-      appbarTitle.textContent = 'نعتیں — حرف ' + currentLetter;
+      appbarTitle.textContent = currentLetter
+        ? ('نعتیں — حرف ' + currentLetter)
+        : ('حروفِ تہجی — ' + (categoryNames[currentCategory] || ''));
     } else if(name === 'naat'){
       appbar.classList.add('has-back');
       appbar.classList.add('has-home');
@@ -942,11 +958,7 @@
     if(history.length > 1){
       history.pop();
       const prev = history[history.length-1];
-      if(prev === 'list'){
-        showScreen('list');
-      } else {
-        showScreen(prev);
-      }
+      showScreen(prev);
     }
   }
 
@@ -959,15 +971,16 @@
   backBtn.addEventListener('click', goBack);
   homeBtn.addEventListener('click', goHome);
   document.getElementById('backToListBtn').addEventListener('click', ()=>{
-    showScreen('list');
-    if(history[history.length-1] !== 'list'){ history.push('list'); }
+    showScreen('alphabet');
+    if(history[history.length-1] !== 'alphabet'){ history.push('alphabet'); }
   });
 
-  // ---------------- Letter -> list of naats (filtered by current category) ----------------
-  function openLetter(letter){
+  // ---------------- Letter -> list of naats (filtered by current category), shown inline ----------------
+  function renderLetterPanel(letter){
     currentLetter = letter;
     listLetterBadge.textContent = letter;
     listContainer.innerHTML = '';
+    renderAlphaGrid();
 
     const addBtn = document.createElement('button');
     addBtn.className = 'add-naat-btn';
@@ -1010,7 +1023,12 @@
         '<p>اس حرف سے شروع ہونے والی، اس زمرے (' + (categoryNames[currentCategory]||'') + ') کی کوئی نعت ابھی شامل نہیں کی گئی۔<br>اوپر دیے گئے بٹن سے اپنی پسندیدہ اور اجازت یافتہ نعت شامل کریں۔</p>';
       listContainer.appendChild(empty);
     }
-    goTo('list');
+    listContainer.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function openLetter(letter){
+    renderLetterPanel(letter);
+    if(history[history.length-1] !== 'alphabet'){ goTo('alphabet'); } else { showScreen('alphabet'); }
   }
 
   // ---------------- Add / Edit modal ----------------
@@ -1065,9 +1083,10 @@
       };
     }
     closeModal();
-    renderAlphaGrid();
     updateCategoryCounts();
-    openLetter(currentLetter);
+    renderLetterPanel(currentLetter);
+    history = ['title','category','alphabet'];
+    showScreen('alphabet');
   });
 
   function deleteNaat(letter, index){
@@ -1120,9 +1139,10 @@
       const ok = confirm('کیا آپ واقعی یہ نعت حذف کرنا چاہتے ہیں؟');
       if(!ok) return;
       naats[letter].splice(index, 1);
-      renderAlphaGrid();
       updateCategoryCounts();
-      openLetter(letter);
+      renderLetterPanel(letter);
+      history = ['title','category','alphabet'];
+      showScreen('alphabet');
     }
   });
 
