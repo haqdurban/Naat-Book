@@ -39,12 +39,14 @@
     display:flex;
     justify-content:center;
     min-height:100vh;
+    min-height:100dvh;
     -webkit-tap-highlight-color:transparent;
   }
   .app{
     width:100%;
     max-width:430px;
     min-height:100vh;
+    min-height:100dvh;
     background:var(--ivory);
     position:relative;
     overflow:hidden;
@@ -213,16 +215,19 @@
   }
   /* ---------- Category screen ---------- */
   #screen-category{
-    padding:24px 18px calc(24px + var(--safe-bottom));
-    justify-content:center;
+    padding:16px 16px calc(16px + var(--safe-bottom));
+    justify-content:flex-start;
   }
   .category-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:14px;
+    grid-template-rows:1fr 1fr;
+    gap:12px;
+    flex:1;
+    min-height:0;
   }
   .category-box{
-    aspect-ratio:1/0.95;
+    min-height:0;
     border-radius:20px;
     border:1.5px solid var(--gold);
     background:linear-gradient(160deg, var(--green-soft), var(--ivory));
